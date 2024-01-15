@@ -15,7 +15,7 @@ app.get('/price/:date/:hour', async (req, res) => {
 })
 
 app.get('/prices', async (req, res) => {
-  console.log("Call reached");
+  //console.log("Call reached");
   res.status(200).json(await getPrices());
 })
 

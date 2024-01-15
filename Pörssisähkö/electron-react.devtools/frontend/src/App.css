@@ -40,8 +40,8 @@
 .Chart_BaseLook {
   font-family: var(--font);
   text-align: center;
-  width: 26rem;
-  height: 20rem;
+  width: 40rem;
+  height: 35rem;
   margin: 2rem auto;
   background: #fff;
   padding: 3rem 2rem;
