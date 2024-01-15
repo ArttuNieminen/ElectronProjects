@@ -6,8 +6,6 @@ export default function GetHourElecPrice() {
 
     const getHour = async () => {
         try {
-            const myHeaders = new Headers();
-            myHeaders.append("Content-Type", "application/json")
 
             const dateAndTimeNow = new Date();
             const date = dateAndTimeNow.toISOString().split('T')[0];
@@ -18,8 +16,7 @@ export default function GetHourElecPrice() {
               }).then(result => result.json());
 
             let {price} = result;
-            SetHourPrice(price);
-            console.log(price);
+            SetHourPrice(`${price}€`);
 
         } catch (error) {
             console.error('Error:', error);
