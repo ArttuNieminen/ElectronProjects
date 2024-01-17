@@ -18,4 +18,8 @@ Liian moneen, luku on todennäköisesti 20- 50 välillä. esim jokainen sosiaali
 Lisäksi arvoinoissa todennäkösesti sähköposti mennyt markkinointi listoihin jotka oletettavasti teitokannoissa josta laitetaan automaattisesti massa sähköpostia.
 Ja myös kaikenlaisissa kansalais tietokannoissa kuten verotus, omakanta jossa lääkärikäynnit yms.
 
-Tehtävä 3.
+3. Tehtävä: Piirrä kaavio
+Hahmottele paperille seuraavaan kuvaukseen liittyvä kaavio yllä esitetyllä tavalla. Ota siitä kuva ja siirrä GitHubin SQL repositorioon. Mitkä ovat käsitteet, ja miten ne liittyvät toisiinsa?
+Opettajalla on useita kursseja, joita hän opettaa. Jokaiseen kurssiin liittyy ajankohta, jolloin kurssi järjestetään, sekä kurssin käyttämä sali.
+
+![alt text]([http://url/to/img.png](https://github.com/ArttuNieminen/ElectronProjects/blob/main/Relaatiotietokanta/electron-react.devtools/Pictures/RelaatiotietokantaTeht%C3%A4v%C3%A4.drawio(3).png)https://github.com/ArttuNieminen/ElectronProjects/blob/main/Relaatiotietokanta/electron-react.devtools/Pictures/RelaatiotietokantaTeht%C3%A4v%C3%A4.drawio(3).png)
