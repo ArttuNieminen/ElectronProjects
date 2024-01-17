@@ -53,3 +53,16 @@ Tee nyt kysely, jolla saat listattua kaikki Opiskelija-taulussa olevat pääaine
 Huom! Tee kysely siten, että näet vain uniikit vastaukset. Kyselyn vastauksessa pitäisi olla vain 2 riviä. Kun saat kyselyn toimimaan, kokeile mitä tapahtuu jos muutat 'LIKE'-operaation muotoon 'NOT LIKE'.
 
 Vastaus: SELECT  DISTINCT pääaine FROM Opiskelija WHERE pääaine  LIKE  '%tiede%', NOT LIKE versiolla tuli vain 1 rivi jossa Matematiikka
+## Tehtävä 11: Haku useasta taulusta
+Tee nyt kysely, joka tulostaa jokaisen opiskelijan nimen, kurssisuorituksen päivämäärän, ja kurssisuorituksen arvosanan.
+
+Vastaus: SELECT nimi,päivämäärä,arvosana FROM Opiskelija,Kurssisuoritus WHERE Opiskelija.opiskelijanumero = Kurssisuoritus.opiskelija
+
+## Tehtävä 12: Tulosten otsikointi
+Tee nyt kysely, joka tulostaa jokaiseen kurssiin liittyvän tehtävän. Tulostuksen otsikoiden nimien tulee olla 'kurssi' ja 'tehtävä'.
+
+vastaus: SELECT Kurssi.nimi AS kurssi, Tehtävä.nimi AS tehtävä FROM Kurssi, Tehtävä,Kurssitehtävä WHERE Kurssi.kurssitunnus = Kurssitehtävä.kurssi AND tehtävä.tunnus = Kurssitehtävä.tehtävä
+
+## Tehtävä 13: Hakujen jäsentely
+
+Tee nyt kysely, joka tulostaa kaikki tehtävät, jotka opiskelija 'Anna' on suorittanut. Tee tulostuksesta sellainen, että yksi sarake sisältää kurssin nimen, ja toinen sarake tehtävän nimen.
