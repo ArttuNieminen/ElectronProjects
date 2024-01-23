@@ -22,7 +22,7 @@ Ja myös kaikenlaisissa kansalais tietokannoissa kuten verotus, omakanta jossa l
 Hahmottele paperille seuraavaan kuvaukseen liittyvä kaavio yllä esitetyllä tavalla. Ota siitä kuva ja siirrä GitHubin SQL repositorioon. Mitkä ovat käsitteet, ja miten ne liittyvät toisiinsa?
 Opettajalla on useita kursseja, joita hän opettaa. Jokaiseen kurssiin liittyy ajankohta, jolloin kurssi järjestetään, sekä kurssin käyttämä sali.
 
-Tehtävän vastaus kuv ![image1](Relaatiotietokanta/electron-react.devtools/Pictures/RelaatiotietokantaTehtävä.drawio(3).png)
+Tehtävän vastaus kuv ![image1](./Pictures/RelaatiotietokantaTehtävä.drawio(3).png)
 
 ## Tehtävä4: Hae kaikki
 Tee nyt kysely, jolla saat listattua kaikki Kurssisuoritus-taulussa olevat rivit. 
@@ -156,4 +156,4 @@ Ei tullut virheitä ja lisäykset onnistuivat.
 ## Tehtävä 27: ALTER TABLE
 Minkälaisia muutoksia W3Schools.com:n mukaan ALTER TABLE -komennolla voi tehdä? Tee mahdollisista komennoista ohjeet esimerkkeineen ja palauta GitHubiin README.md -tiedostoon.
 
-Vastaus: ![image1](Relaatiotietokanta/electron-react.devtools/Pictures/SqlAlterTableEsimerkit.drawio.png)
+Vastaus: ![image1](./Pictures/SqlAlterTableEsimerkit.drawio.png)
