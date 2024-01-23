@@ -61,8 +61,12 @@ Vastaus: SELECT nimi,päivämäärä,arvosana FROM Opiskelija,Kurssisuoritus WHE
 ## Tehtävä 12: Tulosten otsikointi
 Tee nyt kysely, joka tulostaa jokaiseen kurssiin liittyvän tehtävän. Tulostuksen otsikoiden nimien tulee olla 'kurssi' ja 'tehtävä'.
 
-vastaus: SELECT Kurssi.nimi AS kurssi, Tehtävä.nimi AS tehtävä FROM Kurssi, Tehtävä,Kurssitehtävä WHERE Kurssi.kurssitunnus = Kurssitehtävä.kurssi AND tehtävä.tunnus = Kurssitehtävä.tehtävä
+Vastaus: SELECT Kurssi.nimi AS kurssi, Tehtävä.nimi AS tehtävä FROM Kurssi, Tehtävä,Kurssitehtävä WHERE Kurssi.kurssitunnus = Kurssitehtävä.kurssi AND tehtävä.tunnus = Kurssitehtävä.tehtävä
 
 ## Tehtävä 13: Hakujen jäsentely
 
 Tee nyt kysely, joka tulostaa kaikki tehtävät, jotka opiskelija 'Anna' on suorittanut. Tee tulostuksesta sellainen, että yksi sarake sisältää kurssin nimen, ja toinen sarake tehtävän nimen.
+
+Vastaus: SELECT Kurssi.nimi AS Kurssi, Tehtävä.nimi AS Tehtävä FROM Kurssi, Kurssitehtävä, Tehtävä ,Tehtäväsuoritus, Opiskelija
+    WHERE  Kurssi.kurssitunnus = Kurssitehtävä.kurssi AND Tehtävä.tunnus = Kurssitehtävä.tehtävä AND Tehtäväsuoritus.tehtävä = Kurssitehtävä.tunnus AND Tehtäväsuoritus.opiskelija = Opiskelija.opiskelijanumero
+AND Opiskelija.nimi = "Anna"
