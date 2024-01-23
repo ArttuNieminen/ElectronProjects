@@ -124,5 +124,36 @@ Luo ensin tarkasteltava tietokantataulu.
     
 Vastaus: CREATE TABLE Tehtävä (tunnus integer, nimi varchar(30), selite varchar(200)) ja tarkastelu PRAGMA TABLE_INFO(Tehtävä)
 
-
+## Tehtävä 22: PRAGMA
+Luo taulu Kurssi, jolla on sarakkeet kurssitunnus, nimi ja kuvaus. Kurssitunnuksen tulee olla kokonaisluku, nimen merkkijono, ja kuvauksen merkkijono. 
   
+Vastaus: CREATE TABLE Kurssi (kurssitunnus integer, nimi varchar(30), kuvaus varchar(200)) ja PRAGMA TABLE_INFO(Kurssi).
+
+## Tehtävä 23: Pääaivain
+Vastaus: lisää automaattisesti luvun vaikka se ei ole asetettu. Virheviesti sanoo että opiskelijanumeron kuuluu olla uniikki.
+
+## Tehtävä 24: Automaattinen pääavain
+Luo taulu Kurssi, jolla on sarakkeet kurssitunnus, nimi ja kuvaus. Kurssitunnuksen tulee olla kokonaisluku, nimen merkkijono, ja kuvauksen merkkijono. Tämän lisäksi, kurssitunnuksen tulee olla pääavain.
+
+Vastaus: CREATE TABLE Kurssi (kurssitunnus integer PRIMARY KEY, nimi varchar(20), kuvaus varchar(200)) ja valittaa että kurssitunnus ei ole uniikki.
+
+INSERT INTO Kurssisuoritus (opiskelija, kurssi, päivämäärä, arvosana, opintopistemäärä)
+
+## Tehtävä 25: Pääavaimet ja viiteavaimet
+Toteuta nyt taulut Kurssitehtävä ja Tehtävä siten, että niissä on määriteltynä sekä pääavaimet että viiteavaimet. Pohdi, missä järjestyksessä taulut tulee toteuttaa, jotta saat viiteavaimet määriteltyä oikein.
+
+Vastaukset: Ensin taulujen luonnit, CREATE TABLE Tehtävä (tehtävätunnus integer PRIMARY KEY, nimi varchar(30) NOT NULL, kuvaus varchar(2000)) ja CREATE TABLE Kurssitehtävä (tunnus integer PRIMARY KEY, tehtävä integer NOT NULL, kurssi integer NOT NULL, FOREIGN KEY(tehtävä) REFERENCES Tehtävä(tehtävätunnus), FOREIGN KEY(kurssi) REFERENCES Kurssi(kurssitunnus))
+
+## Tehtävä 26: Viitteiden huomioiminen rivejä lisätessä
+Lisää nyt Tehtävä-tauluun muutama rivi, ja määrittele olemassaoleville kursseille muutamia tehtäviä.
+
+Vastaus: Ensin lisäykset tehtäviin INSERT INTO Tehtävä (nimi, kuvaus) VALUES ('Kotiläksy','Tee matikan sivun 30-36 tehtävät') ja INSERT INTO Tehtävä (nimi, kuvaus) VALUES ('Projekti','Tee projekti aiheesta relaatiotietokanta opettajan ohjeiden mukaan')
+Sen jälkeen yhdistetään tehtävät ja kurssit. INSERT INTO Kurssitehtävä (tehtävä,kurssi)
+VALUES ((SELECT tehtävätunnus  FROM Tehtävä WHERE nimi = 'Kotiläksy'), (SELECT kurssitunnus FROM Kurssi WHERE nimi = 'Tikape')); ja INSERT INTO Kurssitehtävä (tehtävä,kurssi)
+VALUES ((SELECT tehtävätunnus  FROM Tehtävä WHERE nimi = 'Projekti'), (SELECT kurssitunnus FROM Kurssi WHERE nimi = 'Ohpe'));
+Ei tullut virheitä ja lisäykset onnistuivat.
+
+## Tehtävä 27: ALTER TABLE
+Minkälaisia muutoksia W3Schools.com:n mukaan ALTER TABLE -komennolla voi tehdä? Tee mahdollisista komennoista ohjeet esimerkkeineen ja palauta GitHubiin README.md -tiedostoon.
+
+Vastaus: ![alt text](Relaatiotietokanta/electron-react.devtools/Pictures/RelaatiotietokantaTehtävä.drawio(3).png)
