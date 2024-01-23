@@ -88,3 +88,9 @@ aikatauluille oleellista on kohteet ja rakentajat.
 No työkalulla voi olla vain yksi käyttäjä kerrallaan. Kohteissa tietty määrä osallistujia ja tarvikkeita.
 
 ## 5:Täsmennä käsitteitä määrittelemällä attribuutit.
+Rakentajilla on attribuutteina nimi,syntymäaika,verokortti, puhelinumero ja sähköposti. Tarvikkeilla on nimi, materiaali, hinta ja laatu. Työkaluilla nimi, käyttötarkoitus, laatu. Taukotiloilla koko, huonekalut, ruokailuvälineen ja kodinkoneet. Kohteilla osoite, valmiusprosentti. Aikatauluilla päiväys, kohteet ja niiden valmiusprosentti, työntekijä määrä.
+
+## Tehtävä 15: Alikyselyt:
+Tee nyt kysely, joka listaa kaikki kurssit, joilla ei ole yhtään tehtävää.
+
+Vastaus: SELECT kurssi FROM Kurssitehtävä k WHERE k.kurssi NOT IN (SELECT tehtävä FROM Kurssisuoritus)
