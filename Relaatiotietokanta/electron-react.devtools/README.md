@@ -64,9 +64,27 @@ Tee nyt kysely, joka tulostaa jokaiseen kurssiin liittyvän tehtävän. Tulostuk
 Vastaus: SELECT Kurssi.nimi AS kurssi, Tehtävä.nimi AS tehtävä FROM Kurssi, Tehtävä,Kurssitehtävä WHERE Kurssi.kurssitunnus = Kurssitehtävä.kurssi AND tehtävä.tunnus = Kurssitehtävä.tehtävä
 
 ## Tehtävä 13: Hakujen jäsentely
-
 Tee nyt kysely, joka tulostaa kaikki tehtävät, jotka opiskelija 'Anna' on suorittanut. Tee tulostuksesta sellainen, että yksi sarake sisältää kurssin nimen, ja toinen sarake tehtävän nimen.
 
 Vastaus: SELECT Kurssi.nimi AS Kurssi, Tehtävä.nimi AS Tehtävä FROM Kurssi, Kurssitehtävä, Tehtävä ,Tehtäväsuoritus, Opiskelija
     WHERE  Kurssi.kurssitunnus = Kurssitehtävä.kurssi AND Tehtävä.tunnus = Kurssitehtävä.tehtävä AND Tehtäväsuoritus.tehtävä = Kurssitehtävä.tunnus AND Tehtäväsuoritus.opiskelija = Opiskelija.opiskelijanumero
 AND Opiskelija.nimi = "Anna"
+
+## Tehtävä 14: pohdintaa taulujen yhdistämisestä
+Vastaus: Toisessa koodissa se ottaakin vielä kaikki kurssitehtävät ja katsoo että niillä on sama opiskelijanumero mitkä kurssitehtävissä, 
+
+# Tehtävä Käsiteanalyysi:
+## 1: Kartoita käsite-ehdokkaita.
+Rakentamisen  rakentajat, tarvikkeet, työkalut, taukotilat, kohteet, aikataulut
+
+## 2: Karsi ehdokkaita.
+Edellisisitä karsisin aikataulut joka vaatisi tietoa kaikista muista.
+
+## 3: Tunnista käsitteiden väliset yhteydet.
+No esim rakentajille kaikki on oleellisia tässä yhteydessä. Työkaluille on oleellista tarvikkeet jotta tietää mitä työkaluja olla ja myös rakentajat jotta tietää määrän.
+aikatauluille oleellista on kohteet ja rakentajat.
+
+## 4: Määrittele yhteyksiin liittyvät osallistumisrajoitteet.
+No työkalulla voi olla vain yksi käyttäjä kerrallaan. Kohteissa tietty määrä osallistujia ja tarvikkeita.
+
+## 5:Täsmennä käsitteitä määrittelemällä attribuutit.
