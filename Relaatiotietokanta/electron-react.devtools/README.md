@@ -71,8 +71,7 @@ Vastaus: SELECT Kurssi.nimi AS Kurssi, Tehtävä.nimi AS Tehtävä FROM Kurssi, 
 AND Opiskelija.nimi = "Anna"
 
 ## Tehtävä 14: pohdintaa taulujen yhdistämisestä
-Vastaus: Toisessa koodissa se ottaakin vielä kaikki kurssitehtävät ja katsoo että niillä on sama opiskelijanumero mitkä kurssitehtävissä, 
-
+Vastaus: Toisessa koodissa se ottaa lisäksi kurssitehtäviste ne jotka on oppilailla eikä vain ne jotka on Tehtävä.tunnus = Kurssitehtävä.tehtävä.
 # Tehtävä Käsiteanalyysi:
 ## 1: Kartoita käsite-ehdokkaita.
 Rakentamisen  rakentajat, tarvikkeet, työkalut, taukotilat, kohteet, aikataulut
@@ -94,3 +93,36 @@ Rakentajilla on attribuutteina nimi,syntymäaika,verokortti, puhelinumero ja sä
 Tee nyt kysely, joka listaa kaikki kurssit, joilla ei ole yhtään tehtävää.
 
 Vastaus: SELECT kurssi FROM Kurssitehtävä k WHERE k.kurssi NOT IN (SELECT tehtävä FROM Kurssisuoritus)
+
+## Tehtävä 16:
+Tee nyt kysely, jolla lasket kurssisuoritus-taulussa olevat kurssisuoritukset kurssin koodin perusteella. Käytä tulostuksessa sarekkeiden nimiä "kurssikoodi" ja "lukumäärä".
+
+Vastaus: SELECT kurssi kurssikoodi, COUNT(*) AS lukumäärä FROM Kurssisuoritus GROUP BY kurssi
+
+## Tehtävä17 : Yhteenvetokysely
+Tee nyt kysely, jossa lasket kurssisuoritus-taulussa olevien kurssien suoritukset -- taas koodin perusteella. Tällä kertaa tulostuksessa tulee kuitenkn tulostaa kurssikoodin sijaan kurssin nimi. Käytä sarakkeiden niminä "kurssi" ja "lukumäärä". (Huomaa, että edellisessä osassa katsotaan kurssitehtäviä, tässä kurssisuorituksia!)
+
+Vastaus: SELECT k.nimi kurssi, COUNT(kt.kurssi) AS lukumäärä FROM Kurssisuoritus kt, Kurssi k WHERE k.kurssitunnus = kt.kurssi GROUP BY k.nimi
+
+## Tehtävä 18: LEFT JOIN
+Tee nyt LEFT JOIN -operaatiota käyttäen kysely, jolla listaat kurssikohtaiset suorituslukumäärät siten, että myös ne kurssit, joilla ei ole yhtäkään suoritusta otetaan huomioon. Käytä sarakkeiden niminä nimiä "kurssi" ja "lukumäärä".
+
+Vasaus: SELECT k.nimi kurssi, COUNT(ks.kurssi) AS lukumäärä FROM  Kurssi k LEFT JOIN Kurssisuoritus ks ON k.kurssitunnus = ks.kurssi GROUP BY k.nimi
+
+## Tehtävä 19: Taulun luominen
+Luo tietokantaan taulu Kurssi, jolla on sarakkeet kurssitunnus, nimi ja kuvaus.
+
+Vastaus: CREATE TABLE Kurssi (kurssitunnus,nimi,kuvaus)
+
+## Tehtävä 20: Rivin luominen
+Lisää nyt tauluun Kurssi kurssi nimeltä "SQL-kielen perusteet", jonka kurssitunnus on "12345" ja kuvaus "SELECT 'Hei maailma';".
+
+Vastaus: INSERT INTO Kurssi (kurssitunnus,nimi,kuvaus) VALUES ('12345', 'SQL-kielen perusteet',"SELECT 'Hei maailma;'") ja varmistus SELECT *FROM Kurssi
+
+## Tehtävä 21: Attribuutteja
+Luo ensin tarkasteltava tietokantataulu.
+    
+Vastaus: CREATE TABLE Tehtävä (tunnus integer, nimi varchar(30), selite varchar(200)) ja tarkastelu PRAGMA TABLE_INFO(Tehtävä)
+
+
+  
