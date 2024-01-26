@@ -1,0 +1,19 @@
+Spesificaatiot ja niiden kehittyminen.
+W3C on kehittänyt tekniset spesifikaatiot seuraaville. HTML5, CSS, SVG, WOFF, XML ja  Web 3.0 eli internet.
+
+Joskus myös kun spesifikaatiot kasvavat liian isoiksi ne erkanevat eri moduuleiski ja kehittyvät 
+omassa tahdissa. Versioden numerot koostuvat kahdesta osasta.Ensimmäinen numero on iso päivitys 
+tai muutos toimintaan (CSS3 = iso muutos 3) ja taas decimaalin jälkeinen on tarkistus kuten bugien korjaukset
+ja pienet päivitykset (CSS2.1 = tarkistus/korjaus 1)
+
+W3C standardien luomis prosessi koostuu neljästä kehitys vaiheesta mistä sen täytyy edetä.
+
+Working draft (WD), Toimiva luonnos.
+Kun on tarpeeksi kerätty "editointi luonnoksia" voi vihdoin luoda WD:n jonka yhteisö voi arvioda. 
+Tämä on ensimmäinen muoto julkisuudessa näytettävä versio joka saatta poiketa huomattavasti viimeisestä
+tuotteesta.
+
+Candidate recommendation (CR), Kandinaatti suositus.
+Tässä vaiheessa tuotos on enemmän kehittynyt ja täytyy jo vastata käyttötarkoitukseen
+Tarkoituksena on myös nähdä kuinka käyttökelpoinen tuotos on ja tärkeimmät ominaisuudet valmiina.
+Tuotos voi vielä tässä vaiheessa muuttua palautteen myötä.

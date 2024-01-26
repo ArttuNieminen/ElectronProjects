@@ -1,0 +1,18 @@
+Saavutettavuusdirektiivi:
+-Selkokieltä: eli tekstiä mitä on helppo ymmärtää ja lukea.
+-Otsikoi loogisesti.  Kuvailevat otsikot ja loogisesti etenevät otsikkotasot.
+-Huomioi apuvälineet kuten ruudukkovälineet jotka lukevat kaiken sivuilta joten nimeä myö kuvat selvästi.
+-Linkitä kunnolla esim anna enemmän tietoa kuin "Lue lisää" jotta tietää mihin linkkivie.
+-Muista teksittää videot jotta tieto ei ole vain äänen varassa.
+-Varmista liitetedostojen muoto että on koneluettavia esim pdf, voi avata mikä laite tahansa.
+
+Esteettömyysdirektiivi:
+-Erittäin samanlainen kuin saavutettavuusdirektiivi ja pyritään tehdä ohjelman yms. käytöstä esteentö jotta
+myös esim. Vammaiset voisivat niitä käyttää.
+-Tämä koskee asioita kuten:
+	-Tietoliikenne- ja viestintäpalvelut,
+	-Liikenteeseen liittyvät palvelut, kuten verkkosivustot ja mobiilisovellukset, 
+	-sähköiset matkaliput ja niiden ostaminen, reaaliaikaiset matkustustiedot
+	-Kuluttajapankkipalvelut, 
+	-Sähköiset kirjat ja niiden käyttämiseen tarkoitetut ohjelmistot
+	-Verkkokauppa
