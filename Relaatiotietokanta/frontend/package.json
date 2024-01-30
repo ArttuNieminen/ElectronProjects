@@ -11,6 +11,7 @@
     "install": "^0.13.0",
     "node-fetch": "^3.3.2",
     "react": "^18.2.0",
+    "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4"
@@ -18,17 +19,9 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
     "eject": "react-scripts eject",
     "dev": "concurrently -k \"cross-env BROWSER=none npm run start\" \"npm run electron\"",
     "electron": "wait-on http-get://127.0.0.1:3000/ && electron ."
-  },
-  "build": {
-    "appId": "com.example.myapp",
-    "productName": "My Electron App",
-    "directories": {
-      "output": "dist"
-    }
   },
   "eslintConfig": {
     "extends": [
