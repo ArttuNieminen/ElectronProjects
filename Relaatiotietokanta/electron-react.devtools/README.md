@@ -1,5 +1,3 @@
-Relaatio tietokanta harjoitus. Tietokannat liittyvät peleihin.
-
 Tehtävät sivulla https://miraavorne.github.io/Databases/
 
 ## Tehtävä 1.
@@ -157,3 +155,10 @@ Ei tullut virheitä ja lisäykset onnistuivat.
 Minkälaisia muutoksia W3Schools.com:n mukaan ALTER TABLE -komennolla voi tehdä? Tee mahdollisista komennoista ohjeet esimerkkeineen ja palauta GitHubiin README.md -tiedostoon.
 
 Vastaus: ![image1](./Pictures/SqlAlterTableEsimerkit.drawio.png)
+
+# Relaatio tietokanta projekti:
+- Aiheena Koulun tietokanta.
+- Malli Draw.io
+- Vähintään 5 taulua.
+- Frontendillä ei väliä (react + electron)
+- MySql Tietokantana
