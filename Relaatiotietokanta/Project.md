@@ -24,9 +24,16 @@ PRIMARY KEY (ID), FOREIGN KEY (StudentID) REFERENCES Student(ID),FOREIGN KEY (Co
 PRIMARY KEY (ID), FOREIGN KEY (StudentID) REFERENCES Student(ID),FOREIGN KEY (CourseID) REFERENCES Course(ID)) 
 
 Huomasin että minulta puuttuikin Student taulusta yksi sarake ja lisäsin sen. ALTER TABLE Student ADD Class varchar(20)
-Huomasin myös että oisi kannattanut pistää taulujen id NOT NULL ja AUTO_INCREMENT mutta lisäystä ei voinut tehdä kun ID on jo FOREIGN KEY
+Huomasin myös että oisi kannattanut pistää taulujen ID NOT NULL ja AUTO_INCREMENT mutta lisäystä ei voinut tehdä kun ID on jo FOREIGN KEY
 muutamassa taulussa. Tämän voi ohittaa käyttämällä SET FOREIGN_KEY_CHECKS = 0 , tekemällä asiat ja sitten tarkistus takaisin SET FOREIGN_KEY_CHECKS = 1 ja muutokset tein tällä tyylillä ALTER TABLE Classaddentance MODIFY ID integer NOT NULL AUTO_INCREMENT
+
+Lisäsin myös FOREIGN KEY:lle NOT NULL.
 
 Seuraavaksi lisäsin yhden rivin Student tauluun jotta voin testata yhteyttä.
 
 Käytin projektissa pohjana omaa Electron-React yhdistelmää node.js localhost serverillä.
+
+Serverillä tuli ongelma saada yhdistettyä serveriin ja sanoi Client does not support authentication protocol requested by server
+
+Tämä ongelma hävisi kun vaihdoin mysql mysql2 eli asensins sen npm i mysql2 ja vahoin 
+var mysql = require('mysql'); => var mysql = require('mysql2');
