@@ -13,7 +13,7 @@ export default function AddPage() {
     return (
         <div>
             <h3>Lisäys sivu</h3>
-            <label for="options">Valitse mitä haluat lisätä:</label>
+            <label htmlFor="options">Valitse mitä haluat lisätä:</label>
 
             <select name="options" id="options" value={value} onChange={(event) => setValue(event.target.value)}>
                 <option value="Student">Oppilas</option>

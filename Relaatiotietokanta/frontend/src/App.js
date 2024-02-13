@@ -1,18 +1,11 @@
 import './App.css';
 import React, { useEffect } from 'react';
 import {HashRouter,Route,Routes} from "react-router-dom";
-import GetAllFromTable from './Components/Requests/AllFromTable';
 import Layout from './Pages/Layout';
 import AddPage from './Pages/Add';
 import EditePage from './Pages/Edit';
 import DeletePage from './Pages/Delete';
 import SearchPage from './Pages/Search';
-
-let tableid;
-const fetchOtableid = async () =>{
-  tableid = await GetAllFromTable();
-}
-fetchOtableid();
 
 function App() {
   
