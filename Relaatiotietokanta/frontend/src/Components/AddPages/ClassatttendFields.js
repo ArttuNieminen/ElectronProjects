@@ -4,7 +4,7 @@
 export default function Classattend(){
     return (
         <div>
-            Classattend
+            yeet
         </div>
     );
 }
