@@ -1,5 +1,5 @@
 
-const addNewStudent = async (Forenames,Surname,Birthdate,SchoolClass) => {
+const updateStudent = async (Forenames,Surname,Birthdate,SchoolClass) => {
     try {
         const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
@@ -24,7 +24,7 @@ const addNewStudent = async (Forenames,Surname,Birthdate,SchoolClass) => {
     }
 };
 
-const addNewTeacher = async (Forenames,Surname) => {
+const updateTeacher = async (Forenames,Surname) => {
     try {
         const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
@@ -70,7 +70,7 @@ const addNewCourse = async (Name,Points) => {
     }
 };
 
-const addNewCourseteachers = async (teacherid,courseid) => {
+const updateCourseteachers = async (teacherid,courseid) => {
     try {
         const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
@@ -94,7 +94,7 @@ const addNewCourseteachers = async (teacherid,courseid) => {
 };
 
 
-const addNewCoursecomplete = async (studentid, courseid,completedate,points,grade) => {
+const updateCoursecomplete = async (studentid, courseid,completedate,points,grade) => {
     try {
         const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
@@ -121,7 +121,7 @@ const addNewCoursecomplete = async (studentid, courseid,completedate,points,grad
 };
 
 
-const addNewClassAttend = async (studentid, courseid,madedate,mark) => {
+const updateClassAttend = async (studentid, courseid,madedate,mark) => {
     try {
         const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
@@ -146,10 +146,10 @@ const addNewClassAttend = async (studentid, courseid,madedate,mark) => {
 };
 
 export {
-    addNewStudent,
-    addNewTeacher,
+    updateStudent ,
+    updateTeacher,
     addNewCourse,
-    addNewCoursecomplete,
-    addNewClassAttend,
-    addNewCourseteachers
+    updateCoursecomplete ,
+    updateClassAttend,
+    updateCourseteachers 
 };

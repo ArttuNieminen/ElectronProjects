@@ -2,7 +2,7 @@ import { addNewCoursecomplete } from "../Requests/AddRequests";
 import getAllFromTable from "../Requests/AllFromTable";
 import { useEffect, useState } from 'react';
 
-export default function Coursecomplete() {
+export default function DelCoursecomplete() {
     const checkAndSend = async () => {
         if (studentid.trim().length === 0 || courseid.trim().length === 0 || completedate.trim().length === 0 ||
         grade.trim().length === 0 || points.trim().length === 0 ) {

@@ -1,21 +1,20 @@
-import { addNewClassAttend} from "../Requests/AddRequests";
+import { addNewCourseteachers } from "../Requests/AddRequests";
 import getAllFromTable from "../Requests/AllFromTable";
 import { useEffect, useState } from 'react';
 
-export default function Classattend() {
+export default function DelCourseteachers() {
     const checkAndSend = async () => {
-        if (studentid.trim().length === 0 || courseid.trim().length === 0 || madedate.trim().length === 0 ||
-        mark.trim().length === 0 ) {
+        if (teacherid.trim().length === 0 || courseid.trim().length === 0) {
             console.log("Some fields in students are empty!!");
         }
         else {
-            addNewClassAttend(studentid, courseid,madedate,mark);
+            addNewCourseteachers(teacherid, courseid);
         }
     };
 
-    const [studentid, setTeacherID] = useState(0);
+    const [teacherid, setTeacherID] = useState(0);
 
-    const handleStudentIDChange = event => {
+    const handleTeacherIDChange = event => {
         setTeacherID(event.target.value);
     };
 
@@ -24,22 +23,10 @@ export default function Classattend() {
         setCourseID(event.target.value);
     };
 
-    const [madedate, setMadeDate] = useState('');
-    const handleMadeDateChange = event => {
-        setMadeDate(event.target.value);
-    };
-
-    const [mark, setMarks] = useState('');
-    const handleMarksChange = event => {
-        setMarks(event.target.value);
-    };
-    
-    
-    
-    const [studentData, setStudentData] = useState([]);
-    const getStudents = async () => {
-        let getdata = await getAllFromTable("Student");
-        setStudentData(getdata);
+    const [teachersData, setTeachersData] = useState([]);
+    const getTeachers = async () => {
+        let getdata = await getAllFromTable("Teacher");
+        setTeachersData(getdata);
     }
 
     const [courseData, setCourseData] = useState([]);
@@ -49,12 +36,12 @@ export default function Classattend() {
     }
 
     useEffect(() => {
-        getStudents();
+        getTeachers();
         getCourses();
     }, []);
 
-    const StudentRows = () => {
-        const dataToUse = studentData;
+    const TeachersRows = () => {
+        const dataToUse = teachersData;
         return (
             <div >
                 {dataToUse.map(data => (
@@ -86,35 +73,25 @@ export default function Classattend() {
         <div>
             <div>
                 <h2>Täytä kaikki kentät! *</h2>
-                <p >Oppilaan tunnus: *</p>
-                <textarea resize="none" rows="1" cols="100" id="studentid"
+                <p >Opettajan tunnus: *</p>
+                <textarea resize="none" rows="1" cols="100" id="forenames"
                     required
-                    name="studentid"
-                    onChange={handleStudentIDChange}
-                    value={studentid}></textarea>
+                    name="forenames"
+                    onChange={handleTeacherIDChange}
+                    value={teacherid}></textarea>
                 <p >Kurssin tunnus *</p>
-                <textarea resize="none" rows="1" cols="60" id="courseid" name="courseid"
+                <textarea resize="none" rows="1" cols="60" id="surname" name="surname"
                     required
                     onChange={handleCourseIDChange}
                     value={courseid}></textarea>
-                    <p >Päiväys VVVV-KK-PP *</p>
-                <textarea resize="none" rows="1" cols="60" id="madedate" name="madedate"
-                    required
-                    onChange={handleMadeDateChange}
-                    value={madedate}></textarea>
-                    <p >Merkintä *</p>
-                <textarea resize="none" rows="1" cols="60" id="mark" name="mark"
-                    required
-                    onChange={handleMarksChange}
-                    value={mark}></textarea>
                 <div className='post'>
                     <button onClick={() => { checkAndSend(); }}>
                         Lisää</button>
                 </div>
                 <div className="listsContainers">
                     <div className="wholeList">
-                        <h2>Oppilaiden lista</h2>
-                        {StudentRows()}
+                        <h2>Opettajien lista</h2>
+                        {TeachersRows()}
                     </div>
                     <div className="wholeList">
                         <h2>Kurssien lista</h2>

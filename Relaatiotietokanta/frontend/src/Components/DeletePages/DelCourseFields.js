@@ -2,7 +2,7 @@ import { addNewCourse } from "../Requests/AddRequests";
 import { useState } from 'react';
 
 
-export default function Course() {
+export default function DelCourse() {
 
     const checkAndSend = async () => {
         if (coursename.trim().length === 0 || points.trim().length === 0 ) {
