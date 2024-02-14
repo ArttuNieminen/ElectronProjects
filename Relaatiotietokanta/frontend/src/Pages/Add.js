@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Student from '../Components/AddPages/StudentFields';
 import Teacher from '../Components/AddPages/TeacherFields';
 import Course from '../Components/AddPages/CourseFields';

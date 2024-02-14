@@ -4,25 +4,23 @@ import { useEffect, useState } from 'react';
 
 export default function Courseteachers() {
     const checkAndSend = async () => {
-        if (forenames.trim().length === 0 || surname.trim().length === 0) {
+        if (teacherid.trim().length === 0 || courseid.trim().length === 0) {
             console.log("Some fields in students are empty!!");
         }
         else {
-            addNewCourseteachers(forenames, surname);
+            addNewCourseteachers(teacherid, courseid);
         }
     };
 
-    const [forenames, setForenames] = useState('');
+    const [teacherid, setTeacherID] = useState(0);
 
-    const handleForenamesChange = event => {
-        setForenames(event.target.value);
-
-        //console.log('value is:', event.target.value);
+    const handleTeacherIDChange = event => {
+        setTeacherID(event.target.value);
     };
-    const [surname, setSurname] = useState('');
-    const handleSurnameChange = event => {
-        setSurname(event.target.value);
 
+    const [courseid, setCourseID] = useState(0);
+    const handleCourseIDChange = event => {
+        setCourseID(event.target.value);
     };
 
     const [teachersData, setTeachersData] = useState([]);
@@ -31,17 +29,39 @@ export default function Courseteachers() {
         setTeachersData(getdata);
     }
 
+    const [courseData, setCourseData] = useState([]);
+    const getCourses = async () => {
+        let getdata = await getAllFromTable("Course");
+        setCourseData(getdata);
+    }
+
     useEffect(() => {
         getTeachers();
+        getCourses();
     }, []);
 
     const TeachersRows = () => {
-        const dataToUse =teachersData;
+        const dataToUse = teachersData;
         return (
             <div >
                 {dataToUse.map(data => (
-                    <div className="databox" key={data.id}>
+                    <div className="databox" >
                         <p className="dataName">{`Nimet: ${data.Forenames} ${data.Surname}`}</p>
+                        <p className="dataID">{`Tunnus: ${data.ID}`}</p>
+                    </div>
+                ))}
+            </div>
+        )
+    };
+
+    
+    const CourseRows = () => {
+        const dataToUse = courseData;
+        return (
+            <div >
+                {dataToUse.map(data => (
+                    <div className="databox" >
+                        <p className="dataName">{`Nimi: ${data.name} `}</p>
                         <p className="dataID">{`Tunnus: ${data.ID}`}</p>
                     </div>
                 ))}
@@ -53,26 +73,32 @@ export default function Courseteachers() {
         <div>
             <div>
                 <h2>Täytä kaikki kentät! *</h2>
-                <p >Etunimet: *</p>
+                <p >Opettajan tunnus: *</p>
                 <textarea resize="none" rows="1" cols="100" id="forenames"
                     required
                     name="forenames"
-                    onChange={handleForenamesChange}
-                    value={forenames}></textarea>
-                <p >Sukunimi *</p>
+                    onChange={handleTeacherIDChange}
+                    value={teacherid}></textarea>
+                <p >Kurssin tunnus *</p>
                 <textarea resize="none" rows="1" cols="60" id="surname" name="surname"
                     required
-                    onChange={handleSurnameChange}
-                    value={surname}></textarea>
+                    onChange={handleCourseIDChange}
+                    value={courseid}></textarea>
                 <div className='post'>
                     <button onClick={() => { checkAndSend(); }}>
                         Lisää</button>
                 </div>
-                <div>
-                    <p>Opettajat lista</p>
-                    {TeachersRows()}
-                    <p>Kurssit lista</p>
+                <div className="listsContainers">
+                    <div className="wholeList">
+                        <h2>Opettajien lista</h2>
+                        {TeachersRows()}
+                    </div>
+                    <div className="wholeList">
+                        <h2>Kurssien lista</h2>
+                        {CourseRows()}
+                    </div>
                 </div>
+
             </div>
 
         </div>

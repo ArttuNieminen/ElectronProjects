@@ -54,7 +54,6 @@
 .databox {
   border: solid black 1px;
   display: flexbox;
-  width: 50%;
 }
 
 .dataName {
@@ -66,3 +65,15 @@
   align-self: center;
   position: relative;
 }
+.listsContainers{
+  display: flex;
+}
+
+.wholeList{
+  flex: 1;
+  border: 1px solid black;
+}
+
+.wholeList:first-child {
+  margin-right: 20px;
+} 
