@@ -1,5 +1,5 @@
 
-const updateAnyRow = async (objOfArrays) => {
+const deleteAnyRow = async (objOfArrays) => {
     try {
         const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
@@ -7,16 +7,18 @@ const updateAnyRow = async (objOfArrays) => {
         const GivenBody = objOfArrays;
 
         const requestOptions = {
-            method: 'UPDATE',
+            method: 'DELETE',
             headers: myHeaders,
             body: JSON.stringify(GivenBody)
         };
+
         await fetch(`http://localhost:5002/`, requestOptions);
     } catch (error) {
         console.error('Error:', error);
     }
 };
 
+
 export {
-   updateAnyRow
+   deleteAnyRow
 };

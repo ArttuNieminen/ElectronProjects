@@ -125,7 +125,7 @@ const addNewClassAttend = async (studentid, courseid,madedate,mark) => {
     try {
         const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
-        const table = "Classaddentance"
+        const table = "Classattendance"
         const GivenBody = {
             StudentID: studentid,
             CourseID: courseid,

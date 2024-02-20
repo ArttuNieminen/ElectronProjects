@@ -1,15 +1,19 @@
-import { addNewClassAttend} from "../Requests/AddRequests";
+import { updateAnyRow } from "../Requests/UpdateRequests";
 import getAllFromTable from "../Requests/AllFromTable";
 import { useEffect, useState } from 'react';
 
-export default function Classattend() {
+export default function UpdCoursecomplete() {
     const checkAndSend = async () => {
-        if (studentid.trim().length === 0 || courseid.trim().length === 0 || madedate.trim().length === 0 ||
-        mark.trim().length === 0 ) {
+        if (studentid.trim().length === 0 || courseid.trim().length === 0 || completedate.trim().length === 0 ||
+        grade.trim().length === 0 || points.trim().length === 0 ) {
             console.log("Some fields in students are empty!!");
         }
         else {
-            addNewClassAttend(studentid, courseid,madedate,mark);
+            let params = {
+                targetTable: 'Classattendance',
+                copmarisons: [`Classattendance.StudentID = ${selectedStudent}`, ` Classattendance.ID = ${markId}`]
+            }
+            updateAnyRow(params);
         }
     };
 
@@ -24,17 +28,22 @@ export default function Classattend() {
         setCourseID(event.target.value);
     };
 
-    const [madedate, setMadeDate] = useState('');
-    const handleMadeDateChange = event => {
-        setMadeDate(event.target.value);
+    const [completedate, setCompleteDate] = useState('');
+    const handleCompleteDateChange = event => {
+        setCompleteDate(event.target.value);
     };
 
-    const [mark, setMarks] = useState('');
-    const handleMarksChange = event => {
-        setMarks(event.target.value);
+    const [points, setPoints] = useState('');
+    const handlePointsChange = event => {
+        setPoints(event.target.value);
+
     };
     
-    
+    const [grade, setGrade] = useState('');
+    const handleGradeChange = event => {
+        setGrade(event.target.value);
+
+    };
     
     const [studentData, setStudentData] = useState([]);
     const getStudents = async () => {
@@ -58,7 +67,7 @@ export default function Classattend() {
         return (
             <div >
                 {dataToUse.map(data => (
-                    <div className="databox"  key={data.ID} >
+                    <div className="databox"  key={data.ID}>
                         <p className="dataName">{`Nimet: ${data.Forenames} ${data.Surname}`}</p>
                         <p className="dataID">{`Tunnus: ${data.ID}`}</p>
                     </div>
@@ -73,7 +82,7 @@ export default function Classattend() {
         return (
             <div >
                 {dataToUse.map(data => (
-                    <div className="databox" key={data.ID}>
+                    <div className="databox" key={data.ID} >
                         <p className="dataName">{`Nimi: ${data.name} `}</p>
                         <p className="dataID">{`Tunnus: ${data.ID}`}</p>
                     </div>
@@ -97,16 +106,21 @@ export default function Classattend() {
                     required
                     onChange={handleCourseIDChange}
                     value={courseid}></textarea>
-                    <p >Päiväys VVVV-KK-PP *</p>
-                <textarea resize="none" rows="1" cols="60" id="madedate" name="madedate"
+                    <p >Suorituspäivä VVVV-KK-PP *</p>
+                <textarea resize="none" rows="1" cols="60" id="comdate" name="comdate"
                     required
-                    onChange={handleMadeDateChange}
-                    value={madedate}></textarea>
-                    <p >Merkintä *</p>
-                <textarea resize="none" rows="1" cols="60" id="mark" name="mark"
+                    onChange={handleCompleteDateChange}
+                    value={completedate}></textarea>
+                    <p >Opintopisteet *</p>
+                <textarea resize="none" rows="1" cols="60" id="points" name="points"
                     required
-                    onChange={handleMarksChange}
-                    value={mark}></textarea>
+                    onChange={handlePointsChange}
+                    value={points}></textarea>
+                    <p >Arvosana *</p>
+                <textarea resize="none" rows="1" cols="60" id="grade" name="grade"
+                    required
+                    onChange={handleGradeChange}
+                    value={grade}></textarea>
                 <div className='post'>
                     <button onClick={() => { checkAndSend(); }}>
                         Lisää</button>

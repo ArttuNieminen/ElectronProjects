@@ -63,7 +63,7 @@ export default function Coursecomplete() {
         return (
             <div >
                 {dataToUse.map(data => (
-                    <div className="databox" >
+                    <div className="databox"  key={data.ID}>
                         <p className="dataName">{`Nimet: ${data.Forenames} ${data.Surname}`}</p>
                         <p className="dataID">{`Tunnus: ${data.ID}`}</p>
                     </div>
@@ -78,7 +78,7 @@ export default function Coursecomplete() {
         return (
             <div >
                 {dataToUse.map(data => (
-                    <div className="databox" >
+                    <div className="databox" key={data.ID} >
                         <p className="dataName">{`Nimi: ${data.name} `}</p>
                         <p className="dataID">{`Tunnus: ${data.ID}`}</p>
                     </div>

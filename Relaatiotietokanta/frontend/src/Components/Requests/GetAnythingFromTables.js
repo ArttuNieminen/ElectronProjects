@@ -1,22 +1,25 @@
 
-const updateAnyRow = async (objOfArrays) => {
+const getAnythingFromTables = async (objOfArrays) => {
     try {
         const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
+       
 
         const GivenBody = objOfArrays;
-
         const requestOptions = {
-            method: 'UPDATE',
+            method: 'POST',
             headers: myHeaders,
             body: JSON.stringify(GivenBody)
         };
-        await fetch(`http://localhost:5002/`, requestOptions);
+
+       
+        const result = await fetch(`http://localhost:5002/any`, requestOptions)
+        .then(result => result.json()) 
+        return result;
     } catch (error) {
         console.error('Error:', error);
-    }
+        return [];
+    }    
 };
 
-export {
-   updateAnyRow
-};
+export default getAnythingFromTables;

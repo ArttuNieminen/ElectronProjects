@@ -1,14 +1,18 @@
-import { addNewCourseteachers } from "../Requests/AddRequests";
+import { updateAnyRow } from "../Requests/UpdateRequests";
 import getAllFromTable from "../Requests/AllFromTable";
 import { useEffect, useState } from 'react';
 
-export default function DelCourseteachers() {
+export default function UpdCourseteachers() {
     const checkAndSend = async () => {
         if (teacherid.trim().length === 0 || courseid.trim().length === 0) {
             console.log("Some fields in students are empty!!");
         }
         else {
-            addNewCourseteachers(teacherid, courseid);
+            let params = {
+                targetTable: 'Classattendance',
+                copmarisons: [`Classattendance.StudentID = ${selectedStudent}`, ` Classattendance.ID = ${markId}`]
+            }
+            updateAnyRow(params);
         }
     };
 
@@ -45,7 +49,7 @@ export default function DelCourseteachers() {
         return (
             <div >
                 {dataToUse.map(data => (
-                    <div className="databox" key={data.ID}>
+                    <div className="databox"  key={data.ID}>
                         <p className="dataName">{`Nimet: ${data.Forenames} ${data.Surname}`}</p>
                         <p className="dataID">{`Tunnus: ${data.ID}`}</p>
                     </div>
@@ -60,7 +64,7 @@ export default function DelCourseteachers() {
         return (
             <div >
                 {dataToUse.map(data => (
-                    <div className="databox" key={data.ID}>
+                    <div className="databox" >
                         <p className="dataName">{`Nimi: ${data.name} `}</p>
                         <p className="dataID">{`Tunnus: ${data.ID}`}</p>
                     </div>

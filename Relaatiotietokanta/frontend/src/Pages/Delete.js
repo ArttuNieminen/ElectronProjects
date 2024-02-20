@@ -13,9 +13,8 @@ export default function DeletePage(){
     return (
         <div>
             <h3>Poisto sivu</h3>
-            <label htmlFor="options">Valitse mitä haluat poistaa.:</label>
-
             <select name="options" id="options" value={value} onChange={(event) => setValue(event.target.value)}>
+                <option value={''} hidden>Valitse mitä haluat poistaa:</option>
                 <option value="Student">Oppilas</option>
                 <option value="Teacher">Opettaja</option>
                 <option value="Course">Kurssi</option>

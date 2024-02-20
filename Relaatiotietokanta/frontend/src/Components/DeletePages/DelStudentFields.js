@@ -1,72 +1,71 @@
-import { addNewStudent } from "../Requests/AddRequests";
+import { deleteAnyRow } from "../Requests/DeleteRequests";
+import getAllFromTable from "../Requests/AllFromTable";
 import { useEffect, useState } from 'react';
 
-
 export default function DelStudent() {
-
     const checkAndSend = async () => {
-        if (forenames.trim().length === 0 || surname.trim().length === 0 || birthdate.trim().length === 0 || schoolClass.trim().length === 0) {
-            console.log("Some fields in students are empty!!");
+        if (studentid === 0 ) {
+            console.log("not all fields selected or given values")
         }
         else {
-            addNewStudent(forenames, surname, birthdate, schoolClass);
+            let params = {
+                targetTable: 'Student',
+                copmarisons: [`Student.ID = ${studentid}`]
+            }
+            deleteAnyRow(params);
+            window.location.reload();
         }
     };
 
-    const [forenames, setForenames] = useState('');
-    
-    const handleForenamesChange = event => {
-        setForenames(event.target.value);
-
-        //console.log('value is:', event.target.value);
-    };
-    const [surname, setSurname] = useState('');
-    const handleSurnameChange = event => {
-        setSurname(event.target.value);
-
-    };
-    const [birthdate, setBirthdate] = useState('');
-    const handleBirthdateChange = event => {
-        setBirthdate(event.target.value);
-
+    const [studentid, setStudentID] = useState(0);
+    const handleStudentIDChange = event => {
+        setStudentID(event.target.value);
     };
 
-    const [schoolClass, setschoolClass] = useState('');
-    const handleSchoolclassChange = event => {
-        setschoolClass(event.target.value);
+    const [studentData, setStudentData] = useState([]);
+    const getStudents = async () => {
+        let getdata = await getAllFromTable("Student");
+        setStudentData(getdata);
+    }
 
+    useEffect(() => {
+        getStudents();
+    }, []);
+
+    const StudentRows = () => {
+        const dataToUse = studentData;
+        return (
+            <div >
+                {dataToUse.map(data => (
+                    <div className="databox"   key={data.ID}>
+                        <p className="dataCard">{`Nimi: ${data.Forenames} ${data.Surname} `}</p>
+                        <p className="dataCard">{`Tunnus: ${data.ID}`}</p>
+                    </div>
+                ))}
+            </div>
+        )
     };
+
     return (
         <div>
             <div>
                 <h2>Täytä kaikki kentät! *</h2>
-                <p >Etunimet: *</p>
-                <textarea resize="none" rows="1" cols="100" id="forenames"
+                <p >Oppilaan tunnus: *</p>
+                <textarea resize="none" rows="1" cols="20" id="Studentid" name="Studentid"
                     required
-                    name="forenames"
-                    onChange={handleForenamesChange}
-                    value={forenames}></textarea>
-                <p >Sukunimi *</p>
-                <textarea resize="none" rows="1" cols="60" id="surname" name="surname"
-                    required
-                    onChange={handleSurnameChange}
-                    value={surname}></textarea>
-                <p>Syntymä-aika VVVV-KK-PP*</p>
-                <textarea resize="none" rows="1" cols="20" id="birthdate" name="birthdate"
-                    required
-                    onChange={handleBirthdateChange}
-                    value={birthdate}></textarea>
-                <p>Luokka *</p>
-                <textarea resize="none" rows="1" cols="20" id="schoolClass" name="schoolClass"
-                    required
-                    onChange={handleSchoolclassChange}
-                    value={schoolClass}></textarea>
+                    onChange={handleStudentIDChange}
+                    value={studentid}></textarea>
                 <div className='post'>
                     <button onClick={() => { checkAndSend(); }}>
-                        Lisää</button>
+                        Poista</button>
                 </div>
+                <div>
+                    <h2>Oppilaat.</h2>
+                    {StudentRows()}
+                </div>
+
             </div>
+
         </div>
     );
 }
-

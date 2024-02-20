@@ -1,17 +1,24 @@
-import { addNewClassAttend} from "../Requests/AddRequests";
+import { updateAnyRow } from "../Requests/UpdateRequests";
 import getAllFromTable from "../Requests/AllFromTable";
 import { useEffect, useState } from 'react';
 
-export default function Classattend() {
+export default function UpdClassattend() {
     const checkAndSend = async () => {
         if (studentid.trim().length === 0 || courseid.trim().length === 0 || madedate.trim().length === 0 ||
         mark.trim().length === 0 ) {
             console.log("Some fields in students are empty!!");
         }
         else {
-            addNewClassAttend(studentid, courseid,madedate,mark);
+            let params = {
+                targetTable: 'Classattendance',
+                targetRow: 1,
+                updateColumns: ['StudentID','CourseID','Madedate','Mark'],
+                updateData : [studentid,courseid,madedate,mark]
+            }
+            updateAnyRow(params);
         }
     };
+
 
     const [studentid, setTeacherID] = useState(0);
 
@@ -48,28 +55,20 @@ export default function Classattend() {
         setCourseData(getdata);
     }
 
+    const [classAttends, setClassAttendsData] = useState([]);
+    const getClassAttends = async () => {
+        let getdata = await getAllFromTable("Classattendance");
+        setClassAttendsData(getdata);
+    }
     useEffect(() => {
         getStudents();
         getCourses();
+        getClassAttends();
     }, []);
 
-    const StudentRows = () => {
-        const dataToUse = studentData;
-        return (
-            <div >
-                {dataToUse.map(data => (
-                    <div className="databox"  key={data.ID} >
-                        <p className="dataName">{`Nimet: ${data.Forenames} ${data.Surname}`}</p>
-                        <p className="dataID">{`Tunnus: ${data.ID}`}</p>
-                    </div>
-                ))}
-            </div>
-        )
-    };
 
-    
-    const CourseRows = () => {
-        const dataToUse = courseData;
+  const ClassattendanceRows = () => {
+        const dataToUse = classAttends;
         return (
             <div >
                 {dataToUse.map(data => (
@@ -81,7 +80,7 @@ export default function Classattend() {
             </div>
         )
     };
-
+   
     return (
         <div>
             <div>
