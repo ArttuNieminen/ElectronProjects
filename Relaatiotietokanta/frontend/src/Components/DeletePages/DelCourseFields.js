@@ -1,52 +1,71 @@
-import { addNewCourse } from "../Requests/AddRequests";
-import { useState } from 'react';
-
+import { deleteAnyRow } from "../Requests/DeleteRequests";
+import getAllFromTable from "../Requests/AllFromTable";
+import { useEffect, useState } from 'react';
 
 export default function DelCourse() {
-
     const checkAndSend = async () => {
-        if (coursename.trim().length === 0 || points.trim().length === 0 ) {
-            console.log("Some fields in students are empty!!");
+        if (courseid === 0 ) {
+            console.log("not all fields selected or given values")
         }
         else {
-            addNewCourse(coursename, points);
+            let params = {
+                targetTable: 'Course',
+                copmarisons: [`Course.ID = ${courseid}`]
+            }
+            deleteAnyRow(params);
+            window.location.reload();
         }
     };
 
-    const [coursename, setNames] = useState('');
-    
-    const handleNamesChange = event => {
-        setNames(event.target.value);
-
-        //console.log('value is:', event.target.value);
+    const [courseid, setCourseID] = useState(0);
+    const handleCourseIDChange = event => {
+        setCourseID(event.target.value);
     };
-    const [points, setPoints] = useState('');
-    const handlePointsChange = event => {
-        setPoints(event.target.value);
 
+    const [courseData, setCourseData] = useState([]);
+    const getCourses = async () => {
+        let getdata = await getAllFromTable("Course");
+        setCourseData(getdata);
+    }
+
+    useEffect(() => {
+        getCourses();
+    }, []);
+
+    const CourseRows = () => {
+        const dataToUse = courseData;
+        return (
+            <div >
+                {dataToUse.map(data => (
+                    <div className="databox"   key={data.ID}>
+                        <p className="dataCard">{`Nimi: ${data.name} `}</p>
+                        <p className="dataCard">{`Tunnus: ${data.ID}`}</p>
+                    </div>
+                ))}
+            </div>
+        )
     };
-    
+
     return (
         <div>
             <div>
                 <h2>Täytä kaikki kentät! *</h2>
-                <p >Kurssin nimi: *</p>
-                <textarea resize="none" rows="1" cols="100" id="name"
+                <p >Kurssin tunnus: *</p>
+                <textarea resize="none" rows="1" cols="20" id="courseid" name="courseid"
                     required
-                    name="name"
-                    onChange={handleNamesChange}
-                    value={coursename}></textarea>
-                <p >Opintopisteet *</p>
-                <textarea resize="none" rows="1" cols="60" id="points" name="points"
-                    required
-                    onChange={handlePointsChange}
-                    value={points}></textarea>
+                    onChange={handleCourseIDChange}
+                    value={courseid}></textarea>
                 <div className='post'>
                     <button onClick={() => { checkAndSend(); }}>
-                        Lisää</button>
+                        Poista</button>
                 </div>
+                <div>
+                    <h2>Kurssit.</h2>
+                    {CourseRows()}
+                </div>
+
             </div>
+
         </div>
     );
 }
-

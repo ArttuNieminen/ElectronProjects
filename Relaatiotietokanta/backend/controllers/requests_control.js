@@ -8,6 +8,8 @@ const con = mysql.createConnection({
   database: process.env.DATABASE
 });
 
+//GET
+
 async function getAllFromTable(table) {
   return new Promise((resolve, reject) => {
     con.connect(function (err) {
@@ -29,48 +31,113 @@ async function getAllFromTable(table) {
   });
 }
 
+async function getAnyFromTable(req, res) {
+  try {
+    const body = req.body;
+
+    const rowsToGet = body.rowsToGet.join(', ');
+    const tablesToUse = body.tablesToUse.join(', ');
+    const joinsToUse = body.joins.map(join => `JOIN ${join}`).join(' ');
+    const conditions = body.copmarisons.join(' AND ');
+
+    const sqlQuery = `SELECT DISTINCT ${rowsToGet} FROM ${tablesToUse} ${joinsToUse} WHERE ${conditions}`;
+    const result = await queryDatabase(sqlQuery);
+
+    console.log(result);
+
+    return result;
+  } catch (error) {
+    console.error(error);
+    // Send the response in case of an error
+    return res;
+  }
+}
+
+
+// POST
 async function postToTable(table, req, res) {
+  try {
+    const body = req.body;
+
+    const columnsNames = Object.keys(body).join(', ');
+    const columnValues = Object.values(body).map(value => `'${value}'`).join(', ');
+
+    const sqlQuery = `INSERT INTO ${table} (${columnsNames}) VALUES (${columnValues})`;
+
+    const result = await queryDatabase(sqlQuery);
+
+    console.log(result);
+    return result;
+  } catch (error) {
+    console.error(error);
+    return res;
+  }
+}
+
+// UPADATE
+async function updateAnyRow(req, res) {
+  try {
+    const body = req.body;
+
+    const targetTable = body.targetTable;
+    const targetRow = body.targetRow;
+    const updateColumns = body.updateColumns;
+    const updateData = body.updateData;
+
+    const setClause = updateColumns
+      .map((column, index) => `${column} = '${updateData[index]}'`)
+      .join(', ');
+
+    const sqlQuery = `UPDATE ${targetTable} SET ${setClause} WHERE ID = ${targetRow}`;
+
+    const result = await queryDatabase(sqlQuery);
+
+    console.log(result);
+    return result;
+  } catch (error) {
+    console.error(error);
+    return res;
+  }
+}
+
+
+// DELETE
+async function deleteAnyRow(req, res) {
+  try {
+    const body = req.body;
+
+    const targetTable = body.targetTable;
+    const conditions = body.copmarisons.join(' AND ');
+
+    const sqlQuery = `DELETE FROM ${targetTable} WHERE ${conditions}`;
+
+    const result = await queryDatabase(sqlQuery);
+    return result;
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
+}
+
+function queryDatabase(sqlQuery) {
+  console.log(sqlQuery);
   return new Promise((resolve, reject) => {
-    con.connect(function (err) {
+    con.query(sqlQuery, function (err, result, fields) {
       if (err) {
         reject(err);
         return;
       }
-
-      let parseBody = req.body;
-
-      let columnsNames ='';
-      for (let i = 0; i < Object.keys( parseBody).length; i++) {
-        if (i != Object.keys( parseBody).length - 1) {
-          columnsNames += Object.keys( parseBody)[i] + ',';
-        } else {
-          columnsNames += Object.keys( parseBody)[i];
-        }
-      }
-
-      let columnValues='';
-      for (let i = 0; i < Object.values(parseBody).length; i++) {
-        if (i != Object.values(parseBody).length - 1) {
-          columnValues += `'${Object.values(parseBody)[i]}',`;
-        } else {
-          columnValues += `'${Object.values(parseBody)[i]}'`;
-        }
-      }
-
-      con.query(`INSERT INTO ${table} (${columnsNames}) VALUES (${columnValues})`, function (err, result, fields) {
-        if (err) {
-          reject(err);
-          return;
-        }
-
-        console.log(result);
-        resolve(result);
-      });
+      resolve(result);
     });
   });
 }
 
+
+
 module.exports = {
   getAllFromTable,
-  postToTable
+  postToTable,
+  getAnyFromTable,
+  deleteAnyRow,
+  updateAnyRow
 };

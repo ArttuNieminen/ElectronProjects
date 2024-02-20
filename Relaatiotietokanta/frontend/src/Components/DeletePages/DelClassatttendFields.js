@@ -1,94 +1,173 @@
-import { addNewClassAttend } from "../Requests/AddRequests";
+import { deleteAnyRow } from "../Requests/DeleteRequests";
+import getAnythingFromTables from "../Requests/GetAnythingFromTables";
 import getAllFromTable from "../Requests/AllFromTable";
 import { useEffect, useState } from 'react';
 
 export default function DelClassattend() {
     const checkAndSend = async () => {
-        if (studentid.trim().length === 0 || courseid.trim().length === 0 || madedate.trim().length === 0 ||
-            mark.trim().length === 0) {
-            console.log("Some fields in students are empty!!");
+        if (markId === 0 || selectedCourse === 0 || selectedStudent === 0) {
+            console.log("not all fields selected or given values")
         }
         else {
-            addNewClassAttend(studentid, courseid, madedate, mark);
+            let params = {
+                targetTable: 'Classattendance',
+                copmarisons: [`Classattendance.StudentID = ${selectedStudent}`, ` Classattendance.ID = ${markId}`]
+            }
+            deleteAnyRow(params);
+            window.location.reload();
         }
     };
 
-    const [studentid, setTeacherID] = useState(0);
-
-    const handleStudentIDChange = event => {
-        setTeacherID(event.target.value);
-    };
-
-    const [courseid, setCourseID] = useState(0);
-    const handleCourseIDChange = event => {
-        setCourseID(event.target.value);
-    };
-
-    const [madedate, setMadeDate] = useState('');
-    const handleMadeDateChange = event => {
-        setMadeDate(event.target.value);
-    };
-
-    const [mark, setMarks] = useState('');
+    // what makring to delete
+    const [markId, setMarks] = useState(0);
     const handleMarksChange = event => {
         setMarks(event.target.value);
     };
 
+
+    //data gets....
+
+    //student dropdown seletion
     const [studentData, setStudentData] = useState([]);
     const getStudents = async () => {
         let getdata = await getAllFromTable("Student");
         setStudentData(getdata);
     }
 
-    const [marksData, setMarksData] = useState([]);
-    const getMarksData = async () => {
-        let getdata = await getAllFromTable("classaddentance"); // needs to be better call to show names in table
-        setMarksData(getdata);
+
+    // selected student attend dropdown selection
+    const [studentAttendData, setStudentAttendData] = useState([]);
+    const getStudentAttend = async () => {
+        let params = {
+            rowsToGet: ['Course.name ', 'Course.ID'],
+            tablesToUse: ['Classattendance'],
+            joins: ['Student ON Classattendance.StudentID = Student.ID',' Course ON Classattendance.CourseID = Course.ID'],
+            copmarisons: [`Student.ID = ${selectedStudent}`,] // set with selections made by user
+        }
+        let getdata = await getAnythingFromTables(params);
+        setStudentAttendData(getdata);
     }
+    /*SELECT DISTINCT 
+    Course.name, 
+    Course.ID 
+FROM 
+    Classattendance
+JOIN 
+    student ON Classattendance.StudentID = student.ID
+JOIN 
+    Course ON Classattendance.CourseID = Course.ID
+WHERE 
+    student.ID = 1;*/
+
+    const [attendData, setAttendData] = useState([]);
+    const getAttendData = async () => {
+        let params = {
+            rowsToGet: ['Student.Forenames', 'Student.Surname', 'Student.Schoolclass', ' Course.name AS Course', 'Classattendance.mark', 'Classattendance.Madedate', 'Classattendance.ID AS AttendID'],
+            tablesToUse: ['Classattendance'],
+            joins:['student ON Classattendance.StudentID = Student.ID',' Course ON Classattendance.CourseID = Course.ID'],
+            copmarisons: [`Student.ID = ${selectedStudent}`, ` Classattendance.CourseID = ${selectedCourse}`]
+        }
+        let getdata = await getAnythingFromTables(params);
+        setAttendData(getdata);
+        console.log(attendData);
+    }
+        /*SELECT DISTINCT 
+    Student.Forenames, 
+    Student.Surname, 
+    Student.Schoolclass,  
+    Course.name AS Course, 
+    Classattendance.mark, 
+    Classattendance.Madedate,
+    Classattendance.ID AS AttendID 
+FROM 
+    Classattendance
+JOIN 
+    student ON Classattendance.StudentID = Student.ID
+JOIN 
+    Course ON Classattendance.CourseID = Course.ID
+WHERE 
+    Student.ID = 1 AND Classattendance.CourseID = 4;
+ */
 
 
     useEffect(() => {
-        getMarksData(); 
         getStudents();
     }, []);
 
     const MarksRows = () => {
-        const dataToUse = marksData;
+        const dataToUse = attendData;
+        const formatDate = (isoDate) => {
+            const date = new Date(isoDate);
+            return date.toLocaleDateString('en-GB'); // Adjust the locale as needed
+          };
         return (
             <div >
                 {dataToUse.map(data => (
-                    <div className="databox" >
-                        <p className="dataName">{`Nimet: ${data.Forenames} ${data.Surname}`}</p>
-                        <p className="dataDate">{`Päiväys: ${data.Madedate} Merkintä: ${data.Mark}`} </p>
-                        <p className="dataID">{`Tunnus: ${data.ID}`}</p>
+                    <div className="databox" key={data.ID}>
+                        <p className="dataCard">{`Nimi: ${data.Forenames} ${data.Surname} `}</p>
+                        <p className="dataCard">{`Luokka: ${data.Schoolclass} `}</p>
+                        <p className="dataCard">{`Kurssi: ${data.Course} `}</p>
+                        <p className="dataCard">{`Merkintä: ${data.mark} `}</p>
+                        <p className="dataCard">{`Päiväys: ${formatDate(data.Madedate)} `}</p>
+                        <p className="dataCard">{`Tuntimerkinnän tunnus: ${data.AttendID} `}</p>
                     </div>
                 ))}
             </div>
         )
     };
 
-    const [selectedStudent, setSelectedStudent] = useState("");
+    const [selectedStudent, setSelectedStudent] = useState(0);
+    const handleStudentSelectChange = (event) => {
+        setSelectedStudent(event.target.value);
+    };
+    
+    //this is needed to wait for selection so it matches fetched data
+    useEffect(() => {
+        getStudentAttend(); 
+    }, [selectedStudent]); 
 
-    //need to have both student and courses selected to delete
+    const [selectedCourse, setSelectedCourse] = useState(0);
+    const handleCourseSelectChange = async (event) => {
+        setSelectedCourse(event.target.value);
+    };
+
+    useEffect(() => {
+        getAttendData(); 
+    }, [selectedCourse]); 
+
     return (
         <div>
             <div>
                 <h2>Täytä kaikki kentät! *</h2>
-                <label htmlFor="studentsOptions">Valitse oppilas!</label>
+                <label htmlFor="studentsOptions">Oppilaat:</label>
 
-                <select name="studentsOptions"
+                <select
+                    name="studentsOptions"
                     value={selectedStudent}
-                    onChange={(event) => setSelectedStudent(event.target.value)}>
-
+                    onChange={handleStudentSelectChange}
+                    >
+                    <option value={0} hidden>Valitse oppilas..</option>
                     {studentData.map((student) => (
-                        <option key={student.ID} className='none' value={student.ID}>{student.Forenames} {student.Surname}</option>
+                        <option key={student.ID} value={student.ID}>
+                            {student.Forenames} {student.Surname}
+                        </option>
+                    ))}
+                </select>
+
+                <label htmlFor="courseOptions">Oppilaan kurssit:</label>
+                <select name="coursesOptions"
+                    value={selectedCourse}
+                    onChange={handleCourseSelectChange}>
+                     <option value={0} hidden>Valitse kurssi..</option>
+                    {studentAttendData.map((course) => (
+                        <option key={course.ID} className='none' value={course.ID}>{course.name}</option>
                     ))}
                 </select>
                 <p >Kurssimerkinnän tunnus: *</p>
-                <textarea resize="none" rows="1" cols="10" id="courseid" name="courseid"
+                <textarea resize="none" rows="1" cols="20" id="courseid" name="courseid"
                     required
-                    onChange={handleCourseIDChange}
-                    value={courseid}></textarea>
+                    onChange={handleMarksChange}
+                    value={markId}></textarea>
                 <div className='post'>
                     <button onClick={() => { checkAndSend(); }}>
                         Poista</button>

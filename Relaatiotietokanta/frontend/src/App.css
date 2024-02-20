@@ -53,7 +53,9 @@
 
 .databox {
   border: solid black 1px;
-  display: flexbox;
+  display: flex;
+  flex-wrap: wrap; 
+  margin-bottom: 10px; 
 }
 
 .dataName {
@@ -76,4 +78,10 @@
 
 .wholeList:first-child {
   margin-right: 20px;
-} 
+}
+
+.dataCard {
+  margin-right: 10px; 
+  margin-bottom: 10px; 
+  padding: 5px; 
+}
