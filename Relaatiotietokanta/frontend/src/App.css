@@ -58,15 +58,6 @@
   margin-bottom: 10px; 
 }
 
-.dataName {
-  align-self: left;
-  position: relative;
-}
-
-.dataID {
-  align-self: center;
-  position: relative;
-}
 .listsContainers{
   display: flex;
 }

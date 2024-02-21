@@ -12,9 +12,9 @@ export default function EditPage() {
 
     return (
         <div>
-            <h3>Lisäys sivu</h3>
+            <h3>Muokkaus sivu</h3>
             <select name="options" id="options" value={value} onChange={(event) => setValue(event.target.value)}>
-                <option value={''} hidden>Valitse mitä haluat lisätä:</option>
+                <option value={''} hidden>Valitse mitä haluat muokata:</option>
                 <option value="Student">Oppilas</option>
                 <option value="Teacher">Opettaja</option>
                 <option value="Course">Kurssi</option>
@@ -30,7 +30,6 @@ export default function EditPage() {
                 {value === "Coursecomplete" && <UpdCoursecomplete />}
                 {value === "Classattend" && <UpdClassattend />}
             </div>
-            
         </div>
     );
 }

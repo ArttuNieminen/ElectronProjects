@@ -46,8 +46,8 @@ export default function Courseteachers() {
             <div >
                 {dataToUse.map(data => (
                     <div className="databox"  key={data.ID}>
-                        <p className="dataName">{`Nimet: ${data.Forenames} ${data.Surname}`}</p>
-                        <p className="dataID">{`Tunnus: ${data.ID}`}</p>
+                        <p className="dataCard">{`Nimet: ${data.Forenames} ${data.Surname}`}</p>
+                        <p className="dataCard">{`Tunnus: ${data.ID}`}</p>
                     </div>
                 ))}
             </div>
@@ -61,8 +61,8 @@ export default function Courseteachers() {
             <div >
                 {dataToUse.map(data => (
                     <div className="databox" >
-                        <p className="dataName">{`Nimi: ${data.name} `}</p>
-                        <p className="dataID">{`Tunnus: ${data.ID}`}</p>
+                        <p className="dataCard">{`Nimi: ${data.name} `}</p>
+                        <p className="dataCard">{`Tunnus: ${data.ID}`}</p>
                     </div>
                 ))}
             </div>

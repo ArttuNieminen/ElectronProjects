@@ -1,6 +1,6 @@
 import { updateAnyRow } from "../Requests/UpdateRequests";
-import { useState } from 'react';
-
+import { useState, useEffect } from 'react';
+import getAllFromTable from "../Requests/AllFromTable";
 
 export default function UpdCourse() {
 
@@ -10,15 +10,21 @@ export default function UpdCourse() {
         }
         else {
             let params = {
-                targetTable: 'Classattendance',
-                copmarisons: [`Classattendance.StudentID = ${selectedStudent}`, ` Classattendance.ID = ${markId}`]
+                targetTable: 'Course',
+                targetRow: rowId,
+                updateColumns: ['name', 'Points',],
+                updateData: [coursename, points]
             }
             updateAnyRow(params);
         }
     };
 
-    const [coursename, setNames] = useState('');
-    
+    const [rowId, setRowID] = useState(0);
+    const handleRowIDChange = event => {
+        setRowID(event.target.value);
+    };
+
+    const [coursename, setNames] = useState(''); 
     const handleNamesChange = event => {
         setNames(event.target.value);
 
@@ -30,10 +36,42 @@ export default function UpdCourse() {
 
     };
     
+    const [courseData, setCourseData] = useState([]);
+    const getCourses = async () => {
+        let getdata = await getAllFromTable("Course");
+        setCourseData(getdata);
+    }
+
+    const CourseRows = () => {
+        const dataToUse = courseData;
+        return (
+            <div >
+                {dataToUse.map(data => (
+                    <div className="databox" key={data.ID}>
+                        <p className="dataCard">{`Nimi: ${data.name} `}</p>
+                        <p className="dataCard">{`Opintopisteet: ${data.points} `}</p>
+                        <p className="dataCard">{`Tunnus: ${data.ID}`}</p>
+                    </div>
+                ))}
+            </div>
+        )
+    };
+
+    useEffect(() => {
+        getCourses();
+    }, []);
+
+    
     return (
         <div>
             <div>
                 <h2>Täytä kaikki kentät! *</h2>
+                <p >Kurssin tunnus mitä muokata: *</p>
+                <textarea resize="none" rows="1" cols="100" id="rowid"
+                    required
+                    name="rowid"
+                    onChange={handleRowIDChange}
+                    value={rowId}></textarea>
                 <p >Kurssin nimi: *</p>
                 <textarea resize="none" rows="1" cols="100" id="name"
                     required
@@ -47,8 +85,12 @@ export default function UpdCourse() {
                     value={points}></textarea>
                 <div className='post'>
                     <button onClick={() => { checkAndSend(); }}>
-                        Lisää</button>
+                    Tee muutokset</button>
                 </div>
+                <div className="wholeList">
+                        <h2>Kurssien lista</h2>
+                        {CourseRows()}
+                    </div>
             </div>
         </div>
     );

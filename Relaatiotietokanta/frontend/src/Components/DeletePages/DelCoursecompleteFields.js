@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 
 export default function DelCoursecomplete() {
     const checkAndSend = async () => {
-        if (markId === 0 || selectedCourse === 0 || selectedStudent === 0) {
+        if (markId === 0 || selectedStudent === 0) {
             console.log("not all fields selected or given values")
         }
         else {
@@ -35,42 +35,18 @@ export default function DelCoursecomplete() {
     }
 
 
-    // selected student attend dropdown selection
-    const [studentAttendData, setStudentAttendData] = useState([]);
-    const getStudentAttend = async () => {
+    const [completeData, setCompleteData] = useState([]);
+    const getCompleteData = async () => {
         let params = {
-            rowsToGet: ['Course.name ', 'Course.ID'],
+            rowsToGet: ['Course.name AS Course', 'Coursecomplete.Points','Coursecomplete.Grade',
+            'Coursecomplete.Completedate', 'Coursecomplete.ID AS CompleteID' ],
             tablesToUse: ['Coursecomplete'],
-            joins: ['Student ON Coursecomplete.StudentID = Student.ID',' Course ON Coursecomplete.CourseID = Course.ID'],
-            copmarisons: [`Student.ID = ${selectedStudent}`,] // set with selections made by user
+            joins:['student ON Coursecomplete.StudentID = Student.ID','Course ON Coursecomplete.CourseID = Course.ID'],
+            copmarisons: [`Student.ID = ${selectedStudent}`]
         }
         let getdata = await getAnythingFromTables(params);
-        setStudentAttendData(getdata);
-    }
-    /*SELECT DISTINCT 
-    Course.name, 
-    Course.ID 
-FROM 
-    Coursecomplete
-JOIN 
-    student ON Coursecomplete.StudentID = student.ID
-JOIN 
-    Course ON Coursecomplete.CourseID = Course.ID
-WHERE 
-    student.ID = 1;*/
-
-    const [attendData, setAttendData] = useState([]);
-    const getAttendData = async () => {
-        let params = {
-            rowsToGet: ['Student.Forenames', 'Student.Surname', 'Student.Schoolclass', ' Course.name AS Course', 'Coursecomplete.Points','Coursecomplete.Grade',
-            'Coursecomplete.Completedate', 'Coursecomplete.ID AS AttendID' ],
-            tablesToUse: ['Coursecomplete'],
-            joins:['student ON Coursecomplete.StudentID = Student.ID',' Course ON Coursecomplete.CourseID = Course.ID'],
-            copmarisons: [`Student.ID = ${selectedStudent}`, ` Coursecomplete.CourseID = ${selectedCourse}`]
-        }
-        let getdata = await getAnythingFromTables(params);
-        setAttendData(getdata);
-        console.log(attendData);
+        setCompleteData(getdata);
+        console.log(completeData);
     }
         /*SELECT DISTINCT 
     Student.Forenames, 
@@ -80,7 +56,7 @@ WHERE
 	Coursecomplete.Points,
 	Coursecomplete.Grade,
     Coursecomplete.Completedate,
-    Coursecomplete.ID AS AttendID 
+    Coursecomplete.ID AS CompleteID 
 FROM 
     Coursecomplete
 JOIN 
@@ -88,7 +64,7 @@ JOIN
 JOIN 
     Course ON Coursecomplete.CourseID = Course.ID
 WHERE 
-    Student.ID = 1 AND Coursecomplete.CourseID = 2 //test numbers
+    Student.ID = 1  //test numbers
 ;
  */
 
@@ -98,23 +74,21 @@ WHERE
     }, []);
 
     const CompleteRows = () => {
-        const dataToUse = attendData;
+        const dataToUse = completeData;
 
         const formatDate = (isoDate) => {
             const date = new Date(isoDate);
-            return date.toLocaleDateString('en-GB'); // Adjust the locale as needed
+            return date.toLocaleDateString('fi-FI');
           };
         return (
             <div >
                 {dataToUse.map(data => (
-                    <div className="databox" key={data.ID}>
-                        <p className="dataCard">{`Nimi: ${data.Forenames} ${data.Surname} `}</p>
-                        <p className="dataCard">{`Luokka: ${data.Schoolclass} `}</p>
+                    <div className="databox" key={data.CompleteID}>
                         <p className="dataCard">{`Kurssi: ${data.Course} `}</p>
                         <p className="dataCard">{`Pisteet: ${data.Points} `}</p>
                         <p className="dataCard">{`Arvosana: ${data.Grade} `}</p>
                         <p className="dataCard">{`Päiväys: ${formatDate(data.Completedate)} `}</p>
-                        <p className="dataCard">{`Kurssisuorituksen tunnus: ${data.AttendID} `}</p>
+                        <p className="dataCard">{`Kurssisuorituksen tunnus: ${data.CompleteID} `}</p>
                     </div>
                 ))}
             </div>
@@ -128,17 +102,8 @@ WHERE
     
     //this is needed to wait for selection so it matches fetched data
     useEffect(() => {
-        getStudentAttend(); 
+        getCompleteData (); 
     }, [selectedStudent]); 
-
-    const [selectedCourse, setSelectedCourse] = useState(0);
-    const handleCourseSelectChange = async (event) => {
-        setSelectedCourse(event.target.value);
-    };
-
-    useEffect(() => {
-        getAttendData(); 
-    }, [selectedCourse]); 
 
     return (
         <div>
@@ -156,16 +121,6 @@ WHERE
                         <option key={student.ID} value={student.ID}>
                             {student.Forenames} {student.Surname}
                         </option>
-                    ))}
-                </select>
-
-                <label htmlFor="courseOptions">Oppilaan kurssit:</label>
-                <select name="coursesOptions"
-                    value={selectedCourse}
-                    onChange={handleCourseSelectChange}>
-                     <option value={0} hidden>Valitse kurssi..</option>
-                    {studentAttendData.map((course) => (
-                        <option key={course.ID} className='none' value={course.ID}>{course.name}</option>
                     ))}
                 </select>
                 <p >Kurssisuorituksen tunnus: *</p>
