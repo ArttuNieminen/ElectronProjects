@@ -7,7 +7,7 @@ const updateAnyRow = async (objOfArrays) => {
         const GivenBody = objOfArrays;
 
         const requestOptions = {
-            method: 'UPDATE',
+            method: 'PUT',
             headers: myHeaders,
             body: JSON.stringify(GivenBody)
         };

@@ -32,7 +32,7 @@ function setupRoutes(app) {
   });
 
   // UPDATE
-  app.update('/', async (req, res) => {
+  app.put('/', async (req, res) => {
     try {
       await requestControl.updateAnyRow(req, res);
       res.status(200).send('Succesfully updatet');

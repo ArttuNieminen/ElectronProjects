@@ -1,15 +1,15 @@
-import { addNewClassAttend} from "../Requests/AddRequests";
+import { addNewClassAttend } from "../Requests/AddRequests";
 import getAllFromTable from "../Requests/AllFromTable";
 import { useEffect, useState } from 'react';
 
 export default function Classattend() {
     const checkAndSend = async () => {
         if (studentid.trim().length === 0 || courseid.trim().length === 0 || madedate.trim().length === 0 ||
-        mark.trim().length === 0 ) {
+            mark.trim().length === 0) {
             console.log("Some fields in students are empty!!");
         }
         else {
-            addNewClassAttend(studentid, courseid,madedate,mark);
+            addNewClassAttend(studentid, courseid, madedate, mark);
         }
     };
 
@@ -33,9 +33,9 @@ export default function Classattend() {
     const handleMarksChange = event => {
         setMarks(event.target.value);
     };
-    
-    
-    
+
+
+
     const [studentData, setStudentData] = useState([]);
     const getStudents = async () => {
         let getdata = await getAllFromTable("Student");
@@ -58,24 +58,24 @@ export default function Classattend() {
         return (
             <div >
                 {dataToUse.map(data => (
-                    <div className="databox"  key={data.ID} >
-                        <p className="dataName">{`Nimet: ${data.Forenames} ${data.Surname}`}</p>
-                        <p className="dataID">{`Tunnus: ${data.ID}`}</p>
+                    <div className="databox" key={data.ID} >
+                        <p className="dataCard">{`Nimet: ${data.Forenames} ${data.Surname}`}</p>
+                        <p className="dataCard">{`Tunnus: ${data.ID}`}</p>
                     </div>
                 ))}
             </div>
         )
     };
 
-    
+
     const CourseRows = () => {
         const dataToUse = courseData;
         return (
             <div >
                 {dataToUse.map(data => (
                     <div className="databox" key={data.ID}>
-                        <p className="dataName">{`Nimi: ${data.name} `}</p>
-                        <p className="dataID">{`Tunnus: ${data.ID}`}</p>
+                        <p className="dataCard">{`Nimi: ${data.name} `}</p>
+                        <p className="dataCard">{`Tunnus: ${data.ID}`}</p>
                     </div>
                 ))}
             </div>
@@ -97,12 +97,12 @@ export default function Classattend() {
                     required
                     onChange={handleCourseIDChange}
                     value={courseid}></textarea>
-                    <p >Päiväys VVVV-KK-PP *</p>
+                <p >Päiväys VVVV-KK-PP *</p>
                 <textarea resize="none" rows="1" cols="60" id="madedate" name="madedate"
                     required
                     onChange={handleMadeDateChange}
                     value={madedate}></textarea>
-                    <p >Merkintä *</p>
+                <p >Merkintä *</p>
                 <textarea resize="none" rows="1" cols="60" id="mark" name="mark"
                     required
                     onChange={handleMarksChange}

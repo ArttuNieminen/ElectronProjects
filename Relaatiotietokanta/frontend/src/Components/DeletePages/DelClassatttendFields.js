@@ -98,12 +98,12 @@ WHERE
         const dataToUse = attendData;
         const formatDate = (isoDate) => {
             const date = new Date(isoDate);
-            return date.toLocaleDateString('en-GB'); // Adjust the locale as needed
+            return date.toLocaleDateString('fi-FI'); 
           };
         return (
             <div >
                 {dataToUse.map(data => (
-                    <div className="databox" key={data.ID}>
+                    <div className="databox"  key={data.AttendID}>
                         <p className="dataCard">{`Nimi: ${data.Forenames} ${data.Surname} `}</p>
                         <p className="dataCard">{`Luokka: ${data.Schoolclass} `}</p>
                         <p className="dataCard">{`Kurssi: ${data.Course} `}</p>
@@ -173,7 +173,7 @@ WHERE
                         Poista</button>
                 </div>
                 <div>
-                    <h2>Oppilaan merkinnät.</h2>
+                    <h2>Oppilaan merkinnät valitulla kurssilla.</h2>
                     {MarksRows()}
                 </div>
 

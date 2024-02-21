@@ -1,31 +1,29 @@
 import { updateAnyRow } from "../Requests/UpdateRequests";
+import getAnythingFromTables from "../Requests/GetAnythingFromTables";
 import getAllFromTable from "../Requests/AllFromTable";
 import { useEffect, useState } from 'react';
 
 export default function UpdCoursecomplete() {
     const checkAndSend = async () => {
-        if (studentid.trim().length === 0 || courseid.trim().length === 0 || completedate.trim().length === 0 ||
-        grade.trim().length === 0 || points.trim().length === 0 ) {
-            console.log("Some fields in students are empty!!");
+        if (rowId === 0 || selectedStudent === 0 ||completedate.trim().length === 0||points=== 0||grade=== 0) {
+            console.log("not all fields selected or given values")
         }
         else {
             let params = {
-                targetTable: 'Classattendance',
-                copmarisons: [`Classattendance.StudentID = ${selectedStudent}`, ` Classattendance.ID = ${markId}`]
+                targetTable: 'Coursecomplete',
+                targetRow: rowId,
+                updateColumns: ['Completedate', 'Points', 'Grade'],
+                updateData: [completedate, points,grade]
             }
             updateAnyRow(params);
+            window.location.reload();
         }
     };
 
-    const [studentid, setTeacherID] = useState(0);
-
-    const handleStudentIDChange = event => {
-        setTeacherID(event.target.value);
-    };
-
-    const [courseid, setCourseID] = useState(0);
-    const handleCourseIDChange = event => {
-        setCourseID(event.target.value);
+    // what makring to delete
+    const [rowId, setRowID] = useState(0);
+    const handleRowIDChange = event => {
+        setRowID(event.target.value);
     };
 
     const [completedate, setCompleteDate] = useState('');
@@ -36,104 +34,140 @@ export default function UpdCoursecomplete() {
     const [points, setPoints] = useState('');
     const handlePointsChange = event => {
         setPoints(event.target.value);
-
     };
-    
+
     const [grade, setGrade] = useState('');
     const handleGradeChange = event => {
         setGrade(event.target.value);
-
     };
-    
+
+
+
+
+    //data gets....
+
+    //student dropdown seletion
     const [studentData, setStudentData] = useState([]);
     const getStudents = async () => {
         let getdata = await getAllFromTable("Student");
         setStudentData(getdata);
     }
 
-    const [courseData, setCourseData] = useState([]);
-    const getCourses = async () => {
-        let getdata = await getAllFromTable("Course");
-        setCourseData(getdata);
+    const [completeData, setCompleteData] = useState([]);
+    const getCompleteData = async () => {
+        let params = {
+            rowsToGet: ['Course.name AS Course', 'Coursecomplete.Points','Coursecomplete.Grade',
+            'Coursecomplete.Completedate', 'Coursecomplete.ID AS CompleteID' ],
+            tablesToUse: ['Coursecomplete'],
+            joins:['student ON Coursecomplete.StudentID = Student.ID','Course ON Coursecomplete.CourseID = Course.ID'],
+            copmarisons: [`Student.ID = ${selectedStudent}`]
+        }
+        let getdata = await getAnythingFromTables(params);
+        setCompleteData(getdata);
+        console.log(completeData);
     }
+        /*SELECT DISTINCT 
+    Student.Forenames, 
+    Student.Surname, 
+    Student.Schoolclass,  
+    Course.name AS Course, 
+	Coursecomplete.Points,
+	Coursecomplete.Grade,
+    Coursecomplete.Completedate,
+    Coursecomplete.ID AS CompleteID 
+FROM 
+    Coursecomplete
+JOIN 
+    student ON Coursecomplete.StudentID = Student.ID
+JOIN 
+    Course ON Coursecomplete.CourseID = Course.ID
+WHERE 
+    Student.ID = 1  //test numbers
+;
+ */
+
 
     useEffect(() => {
         getStudents();
-        getCourses();
     }, []);
 
-    const StudentRows = () => {
-        const dataToUse = studentData;
+    const CompleteRows = () => {
+        const dataToUse = completeData;
+
+        const formatDate = (isoDate) => {
+            const date = new Date(isoDate);
+            return date.toLocaleDateString('fi-FI'); 
+          };
         return (
             <div >
                 {dataToUse.map(data => (
-                    <div className="databox"  key={data.ID}>
-                        <p className="dataName">{`Nimet: ${data.Forenames} ${data.Surname}`}</p>
-                        <p className="dataID">{`Tunnus: ${data.ID}`}</p>
+                    <div className="databox" key={data.CompleteID}>
+                        <p className="dataCard">{`Kurssi: ${data.Course} `}</p>
+                        <p className="dataCard">{`Pisteet: ${data.Points} `}</p>
+                        <p className="dataCard">{`Arvosana: ${data.Grade} `}</p>
+                        <p className="dataCard">{`Päiväys: ${formatDate(data.Completedate)} `}</p>
+                        <p className="dataCard">{`Kurssisuorituksen tunnus: ${data.CompleteID} `}</p>
                     </div>
                 ))}
             </div>
         )
     };
 
-    
-    const CourseRows = () => {
-        const dataToUse = courseData;
-        return (
-            <div >
-                {dataToUse.map(data => (
-                    <div className="databox" key={data.ID} >
-                        <p className="dataName">{`Nimi: ${data.name} `}</p>
-                        <p className="dataID">{`Tunnus: ${data.ID}`}</p>
-                    </div>
-                ))}
-            </div>
-        )
+
+    const [selectedStudent, setSelectedStudent] = useState(0);
+    const handleStudentSelectChange = (event) => {
+        setSelectedStudent(event.target.value);
     };
+
+
+    useEffect(() => {
+        getCompleteData();
+    }, [selectedStudent]);
 
     return (
         <div>
             <div>
                 <h2>Täytä kaikki kentät! *</h2>
-                <p >Oppilaan tunnus: *</p>
-                <textarea resize="none" rows="1" cols="100" id="studentid"
+                <label htmlFor="studentsOptions">Oppilaat:</label>
+                <select
+                    name="studentsOptions"
+                    value={selectedStudent}
+                    onChange={handleStudentSelectChange}
+                >
+                    <option value={0} hidden>Valitse oppilas..</option>
+                    {studentData.map((student) => (
+                        <option key={student.ID} value={student.ID}>
+                            {student.Forenames} {student.Surname}
+                        </option>
+                    ))}
+                </select>
+                <p >Kurssisuorituksen tunnus: *</p>
+                <textarea resize="none" rows="1" cols="20" id="courseid" name="courseid"
                     required
-                    name="studentid"
-                    onChange={handleStudentIDChange}
-                    value={studentid}></textarea>
-                <p >Kurssin tunnus *</p>
-                <textarea resize="none" rows="1" cols="60" id="courseid" name="courseid"
-                    required
-                    onChange={handleCourseIDChange}
-                    value={courseid}></textarea>
-                    <p >Suorituspäivä VVVV-KK-PP *</p>
-                <textarea resize="none" rows="1" cols="60" id="comdate" name="comdate"
+                    onChange={handleRowIDChange}
+                    value={rowId}></textarea>
+                <p >Uusi päiväys VVVV-KK-PP *</p>
+                <textarea resize="none" rows="1" cols="60" id="madedate" name="madedate"
                     required
                     onChange={handleCompleteDateChange}
                     value={completedate}></textarea>
-                    <p >Opintopisteet *</p>
-                <textarea resize="none" rows="1" cols="60" id="points" name="points"
+                <p >Uusi opintopistemäärä *</p>
+                <textarea resize="none" rows="1" cols="60" id="mark" name="mark"
                     required
                     onChange={handlePointsChange}
                     value={points}></textarea>
-                    <p >Arvosana *</p>
-                <textarea resize="none" rows="1" cols="60" id="grade" name="grade"
+                <p >Uusi arvosana *</p>
+                <textarea resize="none" rows="1" cols="60" id="mark" name="mark"
                     required
                     onChange={handleGradeChange}
                     value={grade}></textarea>
                 <div className='post'>
                     <button onClick={() => { checkAndSend(); }}>
-                        Lisää</button>
+                        Tee muutokset</button>
                 </div>
-                <div className="listsContainers">
-                    <div className="wholeList">
-                        <h2>Oppilaiden lista</h2>
-                        {StudentRows()}
-                    </div>
-                    <div className="wholeList">
-                        <h2>Kurssien lista</h2>
-                        {CourseRows()}
-                    </div>
+                <div>
+                    <h2>Oppilaan kurssisuoritukset.</h2>
+                    {CompleteRows()}
                 </div>
 
             </div>
