@@ -42,7 +42,7 @@ export default function DelClassattend() {
             rowsToGet: ['Course.name ', 'Course.ID'],
             tablesToUse: ['Classattendance'],
             joins: ['Student ON Classattendance.StudentID = Student.ID',' Course ON Classattendance.CourseID = Course.ID'],
-            copmarisons: [`Student.ID = ${selectedStudent}`,] // set with selections made by user
+            copmarisons: [`Student.ID = ${selectedStudent}`] // set with selections made by user
         }
         let getdata = await getAnythingFromTables(params);
         setStudentAttendData(getdata);

@@ -16,6 +16,7 @@ export default function UpdCourse() {
                 updateData: [coursename, points]
             }
             updateAnyRow(params);
+            window.location.reload();
         }
     };
 
