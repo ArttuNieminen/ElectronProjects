@@ -48,7 +48,29 @@ async function getAnyFromTable(req, res) {
     return result;
   } catch (error) {
     console.error(error);
-    // Send the response in case of an error
+    return res;
+  }
+}
+
+async function getSearchResults(req, res) {
+  try {
+    const body = req.body;
+
+    const TargetColumns = body.targetColumns.join(', ');
+    const tablesToUse = body.targetTables.join(', ');
+    const joinsToUse = body.joins.join(' ');
+
+    // Check if conditions array is not empty before adding WHERE clause
+    const conditions = body.conditions.length > 0 ? `WHERE ${body.conditions.join(' AND ')}` : '';
+
+    const sqlQuery = `SELECT ${TargetColumns} FROM ${tablesToUse} ${joinsToUse} ${conditions}`;
+    const result = await queryDatabase(sqlQuery);
+
+    console.log(result);
+
+    return result;
+  } catch (error) {
+    console.error(error);
     return res;
   }
 }
@@ -139,5 +161,6 @@ module.exports = {
   postToTable,
   getAnyFromTable,
   deleteAnyRow,
-  updateAnyRow
+  updateAnyRow,
+  getSearchResults
 };
