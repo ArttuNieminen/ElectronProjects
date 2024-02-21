@@ -1,6 +1,8 @@
-const requestControl = require('./controllers/requests_control'); // Adjust the path accordingly
+const requestControl = require('./controllers/requests_control'); 
 
 function setupRoutes(app) {
+
+  //GET
   app.get('/:table', async (req, res) => {
     try {
       const data = await requestControl.getAllFromTable(req.params.table);
@@ -10,7 +12,7 @@ function setupRoutes(app) {
       res.status(500).json({ error: 'Internal Server Error' });
     }
   });
-
+  //post needed to send body
   app.post('/any', async (req, res) => {
     try {
       const data = await requestControl.getAnyFromTable(req, res);
@@ -21,6 +23,16 @@ function setupRoutes(app) {
     }
   });
 
+  app.post('/search', async (req, res) => {
+    try {
+      const data = await requestControl.getSearchResults(req, res);
+      res.status(200).json(data);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  });
+  // POST
   app.post('/:table', async (req, res) => {
     try {
       await requestControl.postToTable(req.params.table, req, res);
