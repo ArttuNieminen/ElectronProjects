@@ -10,6 +10,7 @@ export default function Course() {
         }
         else {
             addNewCourse(coursename, points);
+            window.location.reload();
         }
     };
 

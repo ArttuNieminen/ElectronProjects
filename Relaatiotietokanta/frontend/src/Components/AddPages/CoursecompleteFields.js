@@ -10,6 +10,7 @@ export default function Coursecomplete() {
         }
         else {
             addNewCoursecomplete(studentid, courseid,completedate,points,grade);
+            window.location.reload();
         }
     };
 

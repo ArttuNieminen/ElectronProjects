@@ -9,6 +9,7 @@ export default function Courseteachers() {
         }
         else {
             addNewCourseteachers(teacherid, courseid);
+            window.location.reload();
         }
     };
 
