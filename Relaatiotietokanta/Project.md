@@ -38,12 +38,27 @@ Serverillä tuli ongelma saada yhdistettyä serveriin ja sanoi Client does not s
 Tämä ongelma hävisi kun vaihdoin mysql mysql2 eli asensins sen npm i mysql2 ja vahoin 
 var mysql = require('mysql'); => var mysql = require('mysql2');
 
-projektia tehdessä ei hirveämmin tullut ongelmia paitsi kun piti poistaa jokin joka oli muissa tauluissa foreign key. Tämän pystyi ohittamaan sitten että poisti sarakkeen rajoituksen kuten ALTER TABLE Tablename
-drop CONSTRAINT FK_Constraintname ja lisäsi sen uusilla rajoituksilla kuten ALTER TABLE TABLENAME
-ADD CONSTRAINT  FK_Constraintname FOREIGN KEY (FId) REFERENCES OTHERTABLE (Id) ON DELETE CASCADE ON UPDATE CASCADE; ON DELETE CASCADE lisänä joka antoi sen tuhotua samalla kun poistaa sen 
-liitetyn rivin ja ON UPDATE CASCADE antaa vaihtaa sen tyyppiä jos tarve vaatii. Droppaamisessa oli ongelmia kun en tiennyt rajoituksen nimeä mutta sen sai selville tällä SELECT CONSTRAINT_NAME
-FROM INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS WHERE TABLE_NAME = 'Courseteachers'; joten droppasin sitten tällä ALTER TABLE Courseteachers
-DROP FOREIGN KEY courseteachers_ibfk_1, DROP FOREIGN KEY courseteachers_ibfk_2; ja lissäsin tällä ALTER TABLE Courseteachers ADD CONSTRAINT FK_Teacher_Courseteachers
-FOREIGN KEY (TeacherID) REFERENCES Teacher(ID) ON DELETE CASCADE ON UPDATE CASCADE;
+Projektia tehdessä ei tullut suuria ongelmia paitsi kun piti poistaa jokin joka oli muissa tauluissa foreign key. Tämän pystyi ohittamaan sitten että poisti sarakkeen rajoituksen kuten 
+            
+            ALTER TABLE Tablename drop CONSTRAINT FK_Constraintname 
 
-ALTER TABLE Courseteachers ADD CONSTRAINT FK_Course_Courseteachers FOREIGN KEY (CourseID) REFERENCES Course(ID) ON DELETE CASCADE ON UPDATE CASCADE; Ja sitten tein samat Kurssisuorituksille ja Tuntimenrkinnöille 
+ja lisäsi sen uusilla rajoituksilla kuten:
+    
+            ALTER TABLE TABLENAME ADD CONSTRAINT  FK_Constraintname FOREIGN KEY (FId) REFERENCES OTHERTABLE (Id) 
+            ON DELETE CASCADE ON UPDATE CASCADE; 
+            
+ON DELETE CASCADE lisänä joka antoi sen tuhotua samalla kun poistaa sen liitetyn rivin ja ON UPDATE CASCADE antaa vaihtaa sen tyyppiä jos tarve vaatii. Droppaamisessa oli ongelmia kun en tiennyt rajoituksen nimeä mutta sen sai selville tällä:
+
+            SELECT CONSTRAINT_NAME FROM INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS WHERE TABLE_NAME = 'Courseteachers'; 
+            
+joten droppasin sitten tällä:
+
+            ALTER TABLE Courseteachers DROP FOREIGN KEY courseteachers_ibfk_1, DROP FOREIGN KEY courseteachers_ibfk_2; 
+            
+ja lissäsin tällä: 
+
+            ALTER TABLE Courseteachers ADD CONSTRAINT FK_Teacher_Courseteachers FOREIGN KEY (TeacherID) REFERENCES Teacher(ID) ON DELETE CASCADE ON UPDATE CASCADE
+            
+            ALTER TABLE Courseteachers ADD CONSTRAINT FK_Course_Courseteachers FOREIGN KEY (CourseID) REFERENCES Course(ID) ON DELETE CASCADE ON UPDATE CASCADE; 
+
+Ja samaan tyyliin Kurssisuorituksille ja Tuntimenrkinnöille.
