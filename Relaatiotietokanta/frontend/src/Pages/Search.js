@@ -4,8 +4,13 @@ import React, { useState } from 'react';
 export default function SearchPage(){
     const [value, setValue] = useState("");
 
-
     return (
+        <div>
+            <SearchStudent/>
+        </div>
+    );
+    
+    /*return (
         <div>
             <h3>Etsimis sivu</h3>
             <select name="options" id="options" value={value} onChange={(event) => setValue(event.target.value)}>
@@ -22,6 +27,6 @@ export default function SearchPage(){
                 
             </div>
         </div>
-    );
+    );*/
 }
 
