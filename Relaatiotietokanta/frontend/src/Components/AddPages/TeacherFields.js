@@ -9,6 +9,7 @@ export default function Teacher(){
         }
         else {
             addNewTeacher(forenames, surname);
+            window.location.reload();
         }
     };
 

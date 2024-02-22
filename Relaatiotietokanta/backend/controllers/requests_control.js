@@ -60,7 +60,7 @@ async function getSearchResults(req, res) {
     const tablesToUse = body.targetTables.join(', ');
     const joinsToUse = body.joins.join(' ');
 
-    // Check if conditions array is not empty before adding WHERE clause
+   
     const conditions = body.conditions.length > 0 ? `WHERE ${body.conditions.join(' AND ')}` : '';
 
     const sqlQuery = `SELECT ${TargetColumns} FROM ${tablesToUse} ${joinsToUse} ${conditions}`;

@@ -10,6 +10,7 @@ export default function Classattend() {
         }
         else {
             addNewClassAttend(studentid, courseid, madedate, mark);
+            window.location.reload();
         }
     };
 

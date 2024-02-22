@@ -9,6 +9,7 @@ export default function DelCourseteachers() {
         }
         else {
             addNewCourseteachers(teacherid, courseid);
+            window.location.reload();
         }
     };
 

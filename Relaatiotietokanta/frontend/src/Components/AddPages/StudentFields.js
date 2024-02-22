@@ -10,6 +10,7 @@ export default function Student() {
         }
         else {
             addNewStudent(forenames, surname, birthdate, schoolClass);
+            window.location.reload();
         }
     };
 
